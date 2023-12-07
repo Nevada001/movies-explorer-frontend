@@ -1,8 +1,9 @@
 import logoLanding from "../../../images/landing-logo.svg";
-import "./Promo.css"
+import "./Promo.css";
 export default function Promo() {
   return (
     <section className="promo">
+      <div className="promo__content">
         <div className="promo__container">
           <h1 className="promo__title">
             Учебный проект студента факультета Веб-разработки.
@@ -17,6 +18,7 @@ export default function Promo() {
           src={logoLanding}
           alt="Изображение лэндинга"
         />
-      </section>
-  )
+      </div>
+    </section>
+  );
 }

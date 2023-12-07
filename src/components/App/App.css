@@ -1,4 +1,9 @@
 .page {
   margin: 0 auto;
-  padding: 0 70px;
+  width: 100%;
+}
+
+.links:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
