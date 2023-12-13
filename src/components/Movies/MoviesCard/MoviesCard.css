@@ -1,0 +1,47 @@
+.card {
+  width: 270px;
+}
+
+.card__image {
+  object-fit: cover;
+  width: 270px;
+  height: 151px;
+}
+
+.card__container {
+  display: flex;
+  justify-content: space-between;
+  margin: 14px 0 6px;
+  padding-bottom: 29px;
+  border-bottom: 1px solid #E8E8E8;;
+}
+
+.card__name {
+  color: #000;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.card__button {
+  background-image: url(../../../images/like0.svg);
+  width: 24px;
+  height: 24px;
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+  border-radius: 100%;
+}
+
+.card__button_active {
+  background-image: url(../../../images/like1.svg);
+}
+
+.card__duration {
+  color: #A0A0A0;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

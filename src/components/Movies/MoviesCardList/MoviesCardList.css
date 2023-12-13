@@ -1,0 +1,27 @@
+.movies {
+  max-width: 1280px;
+  padding: 0 auto;
+}
+.cards {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min-content, 270px));
+  justify-content: space-between;
+  gap: 38px 20px;
+}
+
+.movies__button {
+  margin: 60px auto 159px auto;
+  width: 320px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  background: #F9F9F9;
+  color: #000;
+  text-align: center;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
