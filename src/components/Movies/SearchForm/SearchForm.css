@@ -5,7 +5,7 @@
  display: flex;
  justify-content: space-between;
  padding-bottom: 13px;
- margin: 70px auto 33px;
+ margin: 70px 70px 33px 70px;
 
 }
 
@@ -37,7 +37,7 @@
 .search__captions {
   display: flex;
   max-width: 1280px;
-  margin: 0 auto;
+  margin: 0 auto 0 70px;
 }
 
 .search__caption {

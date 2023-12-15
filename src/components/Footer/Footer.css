@@ -1,6 +1,6 @@
 .footer {
-  max-width: 1280px;
-  margin: 0 auto 20px;
+  max-width: 1140px;
+  margin: 79px auto 20px;
   padding: 0 70px;
 }
 
@@ -12,6 +12,10 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+  margin: 0 0 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #E8E8E8;
+
 }
 
 .footer__captions {

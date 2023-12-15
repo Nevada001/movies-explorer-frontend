@@ -5,8 +5,13 @@ import "./App.css";
 import Footer from "../Footer/Footer";
 import { Routes, Route } from "react-router-dom";
 import Movies from "../Movies/Movies";
-import { cards } from "../../constants/constants";
+import { cards, savedCards } from "../../constants/constants";
 import MoviesCard from "../Movies/MoviesCard/MoviesCard";
+import SavedMovies from "../SavedMovies/SavedMovies";
+import SavedMoviesCard from "../SavedMovies/SavedMoviesCard/SavedMoviesCard";
+import Register from "../Register/Register";
+import Login from "../Login/Login";
+import Profile from "../Profile/Profile";
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
@@ -32,6 +37,19 @@ function App() {
             />
           }
         />
+        <Route
+          path="/saved-movies"
+          element={
+            <SavedMovies
+              savedCards={savedCards.map((savedCard) => (
+                <SavedMoviesCard savedCard={savedCard} />
+              ))}
+            />
+          }
+        />
+        <Route path="/signup" element={<Register/>} />
+        <Route path="/signin" element={<Login/>} />
+        <Route path="/profile" element={<Profile/>} />
       </Routes>
       <Footer />
     </div>

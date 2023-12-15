@@ -1,0 +1,77 @@
+.register {
+  margin: 70px auto;
+  width: 390px;
+}
+
+.register__title {
+  margin: 40px 0;
+  color: #000;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.register__caption {
+  color: #A0A0A0;
+  margin: 0 0 5px;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.register__input {
+  width: 396px;
+  border: none;
+  border-bottom: 1px solid #E8E8E8;
+  padding-bottom: 10px;
+  margin-bottom: 24px;
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.register__input:last-of-type {
+  margin: 0;
+}
+
+.register__button {
+  margin: 134px 0 16px;
+  width: 396px;
+  border-radius: 3px;
+  background-color: #3456F3;
+  min-height: 45px;
+  color: #FFF;
+  border: none;
+}
+
+.register__container {
+  width: 396px;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.register__linkAuth {
+  margin-left: 6px;
+  color: #3456F3;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration: none;
+}
+
+.register__caption-bottom {
+  color: #A0A0A0;
+  font-size: 14px;
+  font-style: normal;
+  margin: 0;
+  font-weight: 400;
+  line-height: normal;
+}
