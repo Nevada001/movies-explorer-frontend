@@ -12,7 +12,7 @@
 .header__container {
   max-width: calc(1280px - 70px - 70px);
   margin: 0 auto;
-  padding: 18px 70px;
+  padding: 18px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -105,8 +105,7 @@
 @media screen and (max-width: 1200px ) {
   .header__container {
     max-width: calc(768px - 30px - 30px);
-    padding: 18px 30px;
-  }
+    }
 
   .header__button_auth_active {
     background-image: url(../../images/menu.svg);

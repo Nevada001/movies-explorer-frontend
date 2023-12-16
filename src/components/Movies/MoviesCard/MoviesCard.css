@@ -1,7 +1,3 @@
-.card {
-  width: 270px;
-}
-
 .card__image {
   object-fit: cover;
   width: 270px;
@@ -46,4 +42,12 @@
   font-weight: 400;
   line-height: normal;
   margin: 0;
+}
+
+@media screen and (max-width: 1200px) {
+  .card__image {
+    width: 339px;
+    height: 190px;
+  }
+
 }
