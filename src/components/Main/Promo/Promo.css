@@ -1,15 +1,14 @@
 .promo {
   background-color: #073042;
-
-  
 }
 
 .promo__content {
   padding-top: 75px;
   display: flex;
+  flex-direction: row-reverse;
   justify-content: space-between;
   padding: 75px 70px;
-  max-width: 1280px;
+  max-width: calc(1280px - 70px*2);
   margin: 0 auto;
 
 }
@@ -36,7 +35,7 @@
 }
 
 .promo__image {
-  margin: 0 0 0 auto;
+  margin: 0;
   align-self: flex-start;
 }
 
@@ -52,4 +51,51 @@
   font-style: normal;
   font-weight: 500;
   line-height: 16px; /* 133.333% */
+}
+
+@media screen and (max-width: 1200px) {
+  .promo__content {
+    padding-top: 141px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 75px 70px;
+    max-width: calc(1280px - 75px*2);
+  }
+
+  .promo__image {
+    margin: 0 auto;
+  }
+  .promo__container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .promo__title {
+    width: 680px;
+    text-align: center;
+    font-size: 40px;
+    line-height: 50px; /* 125% */
+    margin: 48px auto 22px;
+  }
+  
+  .promo__caption {
+    width: 260px;
+    color: #FFF;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin: 0 auto 92px;
+    text-align: center;
+  }
+
+  .promo__button-info {
+    width: 129px;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, .6);
+    height: 36px;
+    background-color: transparent;
+    margin: 0 auto 76px;
+  }
 }

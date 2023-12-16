@@ -22,7 +22,7 @@ export default function Header({ isLogin }) {
             {!isLogin && "Регистрация"}
           </Link>
           <Link
-            to="../profile"
+            to="../signin"
             className={`links header__button ${
               isLogin && "header__button_auth_active"
             }`}
@@ -62,11 +62,11 @@ export default function Header({ isLogin }) {
                 </Link>
               </div>
               <div className="header__authLinks">
-                <p className="header__register links">
+                <Link to='/signup' className="header__register links">
                   {!isLogin && "Регистрация"}
-                </p>
+                </Link>
                 <Link
-                  to="/profile"
+                  to="/signin"
                   className={`links header__button header__button_color_white ${
                     isLogin && "header__button_auth_active"
                   }`}

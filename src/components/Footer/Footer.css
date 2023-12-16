@@ -46,3 +46,12 @@
   font-weight: 400;
   line-height: normal;
 }
+
+@media screen and (max-width: 1200px) { 
+  .footer {
+    max-width: calc(768px - 50px*2);
+    margin: 169px auto 20px;
+    padding: 0 50px;
+  }
+  
+}

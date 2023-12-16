@@ -12,6 +12,7 @@ import SavedMoviesCard from "../SavedMovies/SavedMoviesCard/SavedMoviesCard";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
+import NotFound from "../NotFound/NotFound";
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
@@ -50,6 +51,7 @@ function App() {
         <Route path="/signup" element={<Register/>} />
         <Route path="/signin" element={<Login/>} />
         <Route path="/profile" element={<Profile/>} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
       <Footer />
     </div>

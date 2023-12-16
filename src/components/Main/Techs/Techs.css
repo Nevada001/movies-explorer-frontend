@@ -3,7 +3,7 @@
 }
 
 .techs__content {
-  max-width: 1280px;
+  max-width: 1140px;
   margin: 0 auto;
   padding: 100px 70px;
 }
@@ -33,7 +33,7 @@
 }
 
 
-.techs__caption {
+.techs__text {
   margin: 0 auto;
   width: 460px;
   color: #000;
@@ -68,4 +68,21 @@
 
 .techs__name {
   text-align: center;
+}
+
+@media screen and (max-width: 1200px) {
+  .techs__content {
+    max-width: calc(768px - 50px*2);
+    margin: 0 auto;
+    padding: 90px 50px 90px;
+  }
+
+  .techs__container {
+    margin: 83px 10px 0;
+  }
+
+  .techs__text {
+    font-size: 12px;
+    line-height: 18px; /* 142.857% */
+  }
 }
