@@ -49,5 +49,12 @@
     width: 339px;
     height: 190px;
   }
+}
+
+@media screen and (max-width: 748px) {
+  .card__image {
+    width: 300px;
+    height: 168px;
+  }
 
 }

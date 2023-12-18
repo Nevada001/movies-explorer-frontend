@@ -5,7 +5,7 @@
 .techs__content {
   max-width: 1140px;
   margin: 0 auto;
-  padding: 100px 70px;
+  padding: 100px 0;
 }
 
 .techs__header-title {
@@ -22,7 +22,6 @@
 
 .techs__title {
   margin: 90px auto 26px;
-  width: 600px;
   text-align: center;
   color: #000;
   font-size: 50px;
@@ -35,7 +34,6 @@
 
 .techs__text {
   margin: 0 auto;
-  width: 460px;
   color: #000;
   text-align: center;
   font-size: 14px;
@@ -74,7 +72,7 @@
   .techs__content {
     max-width: calc(768px - 50px*2);
     margin: 0 auto;
-    padding: 90px 50px 90px;
+    padding: 90px 0 90px;
   }
 
   .techs__container {
@@ -85,4 +83,43 @@
     font-size: 12px;
     line-height: 18px; /* 142.857% */
   }
+}
+
+@media screen and (max-width: 700px) {
+
+  .techs {
+    background-color: #FFF;
+  }
+  .techs__content {
+    max-width: calc(320px - 18px*2);
+    margin: 0 auto;
+    padding: 70px 0 60px;
+  }
+
+  .techs__text {
+    font-size: 12px;
+    line-height: 18px; /* 142.857% */
+  }
+
+  .techs__container {
+    display: flex;
+    list-style: none;
+    margin: 50px 0 0 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+
+  .techs__title {
+    font-size: 30px;
+  }
+
+  .techs__element {
+    margin: 0 10px 10px 0;
+  }
+
+  .techs__element:last-of-type {
+    margin-right: auto;
+    margin-left: calc((284px - 90px*2 - 10px*2)/2);
+  }
+  
 }

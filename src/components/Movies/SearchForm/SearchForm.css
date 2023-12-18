@@ -38,8 +38,7 @@
 
 .search__captions {
   display: flex;
-  max-width: 1280px;
-  margin: 0 auto 0 70px;
+  margin: 30px auto 0;
 }
 
 .search__caption {
@@ -60,13 +59,35 @@
 
 @media screen and (max-width: 1200px) {
   .search {
-  max-width: 768px;
-  padding: 70px 0 33px;
+  max-width: calc(768px - 30px*2);
 }
 
 .search__captions {
   margin: 30px 0 61px;
   flex-direction: row-reverse;
+}
+
+.search__caption {
+  margin: 0 16px 0 0;
+  }
+}
+
+@media screen and (max-width: 748px) {
+  .search {
+  max-width: calc(320px - 10px*2);
+}
+
+.search__captions {
+justify-content: center;
+}
+
+.search__input {
+  width: 80px;
+  font-size: 18px;
+}
+
+.search__container {
+  width: calc(320px - 14px*2);
 }
 
 .search__caption {

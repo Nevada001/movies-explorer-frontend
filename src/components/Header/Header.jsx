@@ -1,19 +1,45 @@
 import { Link, Routes, Route } from "react-router-dom";
 import "./Header.css";
-export default function Header({ isLogin }) {
+export default function Header({ isLogin, isMenuOpen }) {
   const logoLink = <Link to="/" className="header__logo" />;
+  const linksBlack = (
+    <>
+      <Link
+        to="/movies"
+        className="header__link header__link_color_black  links"
+      >
+        Фильмы
+      </Link>
+      <Link
+        to="/saved-movies"
+        className="header__link header__link_color_black links"
+      >
+        Сохранённые фильмы
+      </Link>
+    </>
+  );
+
+  const linksWhite = (
+    <>
+      <Link
+        to="/movies"
+        className="header__link header__link_color_white  links"
+      >
+        Фильмы
+      </Link>
+      <Link
+        to="/saved-movies"
+        className="header__link header__link_color_white links"
+      >
+        Сохранённые фильмы
+      </Link>
+    </>
+  );
   const header = (
     <div className="header header_color_white">
       <div className="header__container">
         {logoLink}
-        <div className={`header__links ${isLogin && `header__links_visible`}`}>
-          <Link to="/movies" className="header__link header__link_active links">
-            Фильмы
-          </Link>
-          <Link to="/saved-movies" className="header__link links">
-            Сохранённые фильмы
-          </Link>
-        </div>
+        <div className="header__links">{isLogin && linksBlack}</div>
         <div className="header__authLinks">
           <Link
             to="../signup"
@@ -21,15 +47,15 @@ export default function Header({ isLogin }) {
           >
             {!isLogin && "Регистрация"}
           </Link>
-          <Link
-            to="../signin"
+          <button
+            onClick={isMenuOpen}
             className={`links header__button ${
               isLogin && "header__button_auth_active"
             }`}
             alt="Кнопка авторизации"
           >
             {!isLogin && "Войти"}
-          </Link>
+          </button>
         </div>
       </div>
     </div>
@@ -43,37 +69,20 @@ export default function Header({ isLogin }) {
           <div className="header">
             <div className="header__container">
               {logoLink}
-              <div
-                className={`header__links ${
-                  isLogin && `header__links_visible`
-                }`}
-              >
-                <Link
-                  to="/movies"
-                  className="header__link header__link_color_white links"
-                >
-                  Фильмы
-                </Link>
-                <Link
-                  to="/saved-movies"
-                  className="header__link header__link_color_white links"
-                >
-                  Сохранённые фильмы
-                </Link>
-              </div>
+              <div className="header__links"> {isLogin && linksWhite}</div>
               <div className="header__authLinks">
-                <Link to='/signup' className="header__register links">
+                <Link to="/signup" className="header__register links">
                   {!isLogin && "Регистрация"}
                 </Link>
-                <Link
-                  to="/signin"
+                <button
+                  onClick={isMenuOpen}
                   className={`links header__button header__button_color_white ${
                     isLogin && "header__button_auth_active"
                   }`}
                   alt="Кнопка авторизации"
                 >
                   {!isLogin && "Войти"}
-                </Link>
+                </button>
               </div>
             </div>
           </div>

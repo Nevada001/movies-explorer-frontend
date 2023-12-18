@@ -6,21 +6,21 @@ export default function Portfolio() {
       <p className="portfolio__name">Портфолио</p>
       <ul className="portfolio__links">
         <li className="portfolio__link">
-          <button  className="portfolio__link-name links">
+          <a href="https://github.com/Nevada001/how-to-learn" target="_blank" rel="noreferrer"  className="portfolio__link-name links">
             Статичный сайт
-          </button>
+          </a>
           <p className="portfolio__link-element links">↗</p>
         </li>
         <li className="portfolio__link ">
-          <button  className="portfolio__link-name links">
+          <a target="_blank" href="https://github.com/Nevada001/russian-travel" rel="noreferrer" className="portfolio__link-name links">
             Адаптивный сайт
-          </button>
+          </a>
           <p className="portfolio__link-element links">↗</p>
         </li>
         <li className="portfolio__link">
-          <button  className="portfolio__link-name links">
+          <a target="_blank" rel="noreferrer" href="https://github.com/Nevada001/react-mesto-api-full-gha" className="portfolio__link-name links">
             Одностраничное приложение
-          </button>
+          </a>
           <p className="portfolio__link-element links">↗</p>
         </li>
       </ul>

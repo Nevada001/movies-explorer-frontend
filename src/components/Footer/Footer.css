@@ -52,3 +52,32 @@
     margin: 169px auto 20px;
   }
 }
+
+@media screen and (max-width: 700px) { 
+  .footer {
+    max-width: calc(320px - 10px*2);
+    margin: 149px auto 20px;
+  }
+
+  .footer__captions {
+    flex-direction: column;
+    justify-content: center;
+    margin: 0 auto;
+  }
+
+  .footer__caption {
+    margin: 0 auto 12px;
+  }
+
+  .footer__text {
+    margin-bottom: 30px;
+  }
+
+  .footer__link:first-of-type {
+    margin: 0 auto 12px;
+  }
+
+  .footer__link {
+    margin: 0 auto;
+  }
+}

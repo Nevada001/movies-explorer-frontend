@@ -1,6 +1,6 @@
 .profile {
   margin: 70px auto;
-  width: 410px;
+  max-width: 410px;
 }
 
 .profile__title {
@@ -78,4 +78,19 @@
   margin: 0;
   font-weight: 400;
   line-height: normal;
+}
+
+@media screen and (max-width: 700px) {
+  .profile {
+    margin: 70px auto;
+    max-width: calc(320px - 30px*2);
+  }
+
+  .profile__linkAuth {
+    max-width: 260px;
+  }
+
+  .profile__button {
+    max-width: 260px;
+  }
 }

@@ -1,0 +1,86 @@
+.menu {
+  visibility: hidden;
+}
+
+@media screen and (max-width: 1200px) {
+  .menu {
+    width: 520px;
+    height: 100%;
+    z-index: 1;
+    background-color: #FFF;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    text-align: center;
+
+  }
+
+  .menu__close-button {
+    background-image: url(../../images/krest.svg);
+    position: absolute;
+    top: 22px;
+    right: 22px;
+    background-position: center;
+    border: none;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 22px;
+    visibility: hidden;
+  }
+
+  .menu__links {
+    margin: 159px auto 90px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .menu__link {
+    color: #000;
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-decoration: none;
+    margin-bottom: 28px;
+  }
+
+  .menu__link:last-of-type {
+  margin-bottom: 0;
+}
+
+  .menu__logo {
+    background-image: url(../../images/profile_white.svg);
+    margin: 621px auto 90px;
+    width: 100px;
+    height: 32px;
+    object-fit: cover;
+    background-position: center;
+    border-radius: 40px;
+  }
+
+  .menu__close-button_opened {
+    visibility: visible;
+  }
+
+  .menu_opened {
+    visibility: visible;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .menu {
+    width: 100%;
+  }
+
+  .menu__logo {
+    margin: 444px auto 46px;
+  }
+
+  .menu__links {
+    margin: 144px auto 0;
+  }
+}

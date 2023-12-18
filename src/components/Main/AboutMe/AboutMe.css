@@ -1,8 +1,6 @@
 .about-me {
   margin: 110px auto 90px;
-  padding: 0 70px;
   max-width: 1140px;
-
 }
 
 .about-me__content {
@@ -28,7 +26,6 @@
 
 .about-me__title {
   margin: 66px 0 18px;
-  width: 600px;
   color: #000;
   font-size: 50px;
   font-style: normal;
@@ -38,7 +35,6 @@
 }
 
 .about-me__subtitle {
-  width: 600px;
   color: #000;
   font-feature-settings: 'clig' off, 'liga' off;
   font-size: 18px;
@@ -73,6 +69,7 @@
   line-height: normal;
   position: absolute;
   bottom: 0px;
+  text-decoration: none;
   left: 0px;
   margin: 0;
 }
@@ -80,7 +77,6 @@
 @media screen and (max-width: 1200px) {
   .about-me {
     margin: 90px auto 90px;
-    padding: 0 50px;
     max-width: calc(768px - 50px*2);
   }
 
@@ -94,5 +90,47 @@
     margin-top: 66px;
     object-fit: cover;
     border-radius: 10px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .about-me {
+    margin: 70px auto 70px;
+    max-width: calc(320px - 18px*2);
+  }
+
+  .about-me__container {
+    margin: 0 auto;
+    width: calc(320px - 15px*2);
+  }
+
+  .about-me__content {
+    width: calc(320px - 14px*2);
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: center;
+  }
+
+  .about-me__image {
+    width: 292px;
+    height: 352px;
+    margin: 60px 0 40px;
+  }
+
+  .about-me__title {
+      font-size: 30px;
+      margin: 0;
+  }
+
+  .about-me__subtitle {
+    font-size: 11px;
+    line-height: 16px; /* 111.111% */
+  }
+  
+  .about-me__text {
+    margin: 20px 0 40px;
+    font-size: 11px;
+    line-height: 16px; /* 157.143% */
   }
 }

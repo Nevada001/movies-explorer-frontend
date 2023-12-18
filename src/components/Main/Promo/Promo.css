@@ -15,7 +15,7 @@
 .promo__title {
   margin: 0;
   color: #FFF;
-  width: 640px;
+  
   font-size: 50px;
   text-align: left;
   font-style: normal;
@@ -72,7 +72,7 @@
     flex-direction: column;
   }
   .promo__title {
-    width: 680px;
+    
     text-align: center;
     font-size: 40px;
     line-height: 50px; /* 125% */
@@ -97,5 +97,41 @@
     height: 36px;
     background-color: transparent;
     margin: 0 auto 76px;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .promo__content {
+    padding-top: 141px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 75px 0 30px;
+    max-width: calc(1280px - 75px*2);
+  }
+
+  .promo__image {
+    margin: 0 auto;
+    width: 210px;
+    height: 206px;
+  }
+  .promo__container {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .promo__title {
+    text-align: center;
+    font-size: 30px;
+    line-height: 38px; /* 125% */
+    margin: 44px auto 24px;
+  }
+
+  .promo__caption {
+    margin-bottom: 80px;
+  }
+
+  .promo__button-info {
+    margin-bottom: 0;
   }
 }

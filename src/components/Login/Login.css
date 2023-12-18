@@ -75,3 +75,31 @@
   font-weight: 400;
   line-height: normal;
 }
+
+@media screen and (max-width: 748px) {
+  .login {
+    margin: 70px auto;
+    max-width: calc(320px - 30px*2);
+  }
+
+  .login__input {
+    width: 260px;
+  }
+
+  .login__container {
+    width: 260px;
+  }
+
+  .login__button {
+    width: 260px;
+    margin: 309px 0 12px;
+  }
+
+  .login__caption-bottom {
+    font-size: 12px;
+  }
+
+  .login__linkAuth {
+    font-size: 12px;
+  }
+}

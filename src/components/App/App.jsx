@@ -13,12 +13,22 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Profile from "../Profile/Profile";
 import NotFound from "../NotFound/NotFound";
+import Menu from "../Menu/Menu";
 
 function App() {
   const [isLogin, setIsLogin] = useState(true);
+  const [menuIsOpen, setMenuIsOpen] = useState(false);
+
+  function openMenu() {
+    setMenuIsOpen(true);
+  }
+
+  function closeMenu() {
+    setMenuIsOpen(false);
+  }
   return (
     <div className="page">
-      <Header isLogin={isLogin} />
+      <Header isLogin={isLogin} isMenuOpen={openMenu} />
       <Routes>
         <Route
           path="/"
@@ -53,6 +63,9 @@ function App() {
         <Route path="/profile" element={<Profile/>} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
+      <Menu 
+      isOpen={menuIsOpen}
+      onClose={closeMenu} />
       <Footer />
     </div>
   );
