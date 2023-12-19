@@ -1,3 +1,4 @@
+
 .card__image {
   object-fit: cover;
   width: 270px;
@@ -53,7 +54,7 @@
 
 @media screen and (max-width: 748px) {
   .card__image {
-    width: 300px;
+    width: 299px;
     height: 168px;
   }
 

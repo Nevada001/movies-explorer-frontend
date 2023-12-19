@@ -83,7 +83,7 @@
 @media screen and (max-width: 700px) {
   .profile {
     margin: 70px auto;
-    max-width: calc(320px - 30px*2);
+    max-width: calc(100vw - 30px*2);
   }
 
   .profile__linkAuth {

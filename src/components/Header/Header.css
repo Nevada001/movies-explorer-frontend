@@ -11,7 +11,7 @@
 
 
 .header__container {
-  max-width: calc(1280px - 70px - 70px);
+  max-width: calc(100vw - 70px - 70px);
   margin: 0 auto;
   padding: 18px 0;
   display: flex;
@@ -98,24 +98,33 @@
   background-position: center;
 }
 
-.header__button_auth_active {
+.header__button_color_green {
   background-image: url('../../images/profile.svg');
   background-color: transparent;
 }
 
+.header__button_color_white {
+  background-image: url(../../images/profilewh.svg);
+  background-color: transparent;
+}
+
 @media screen and (max-width: 1200px ) {
+
+  .header__links {
+    width: 0px;
+  }
   .header__container {
-    max-width: calc(768px - 30px - 30px);
+    max-width: calc(100vw - 30px - 30px);
     }
 
-  .header__button_auth_active {
+  .header__button {
     background-image: url(../../images/iconwhite.svg);
     object-fit: cover;
     width: 44px;
     height: 44px;
   }
 
-  .header__button_auth_active:hover {
+  .header__button:hover {
     opacity: 0.6;
     cursor: pointer;
   }
@@ -128,7 +137,7 @@
 
 @media screen and (max-width: 700px ) {
   .header__container {
-    max-width: calc(320px - 14px*2);
+    max-width: calc(100vw - 14px*2);
     }
 
   .header__button_auth_active {
