@@ -1,9 +1,11 @@
 .movies__container {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .cards {
+  
   list-style: none;
   padding: 0;
   display: grid;
@@ -46,7 +48,9 @@
   width: 240px;
 }
 
+
 .cards {
   margin: 0 auto;
+  grid-template-columns: repeat(auto-fit, minmax(min-content, 300px));
 }
 }

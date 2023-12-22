@@ -41,21 +41,18 @@ export default function Header({ isLogin, isMenuOpen }) {
         {logoLink}
         <div className="header__links">{isLogin && linksBlack}</div>
         <div className="header__authLinks">
-          <Link
-            to="../signup"
-            className="header__register header__register_color_black links"
-          >
-            {!isLogin && "Регистрация"}
-          </Link>
-          <button
-            onClick={isMenuOpen}
-            className={`links header__button ${
-              isLogin && "header__button_color_white"
-            }`}
-            alt="Кнопка авторизации"
-          >
-            {!isLogin && "Войти"}
-          </button>
+          {isLogin && (
+            <Link
+              to="../profile"
+              className={`links header__button ${
+                isLogin && "header__button_color_white"
+              }`}
+              alt="Кнопка авторизации"
+            ></Link>
+          )}
+          {isLogin && (
+            <div onClick={isMenuOpen} className="header__burger links"></div>
+          )}
         </div>
       </div>
     </div>
@@ -71,18 +68,32 @@ export default function Header({ isLogin, isMenuOpen }) {
               {logoLink}
               <div className="header__links"> {isLogin && linksWhite}</div>
               <div className="header__authLinks">
-                <Link to="/signup" className="header__register links">
-                  {!isLogin && "Регистрация"}
-                </Link>
-                <button
-                  onClick={isMenuOpen}
-                  className={`links header__button  ${
-                    isLogin && "header__button_color_green"
-                  }`}
-                  alt="Кнопка авторизации"
-                >
-                  {!isLogin && "Войти"}
-                </button>
+                {!isLogin && (
+                  <>
+                    <Link to="../signup" className="header__register links">
+                      Регистрация
+                    </Link>
+                    <Link to="../signin" className="header__login  links">
+                      Войти
+                    </Link>
+                  </>
+                )}
+
+                {isLogin && (
+                  <Link
+                    to="../profile"
+                    className={`links header__button  ${
+                      isLogin && "header__button_color_green"
+                    }`}
+                    alt="Кнопка авторизации"
+                  ></Link>
+                )}
+                {isLogin && (
+                  <div
+                    onClick={isMenuOpen}
+                    className="header__burger links header__burger_color_white"
+                  ></div>
+                )}
               </div>
             </div>
           </div>
