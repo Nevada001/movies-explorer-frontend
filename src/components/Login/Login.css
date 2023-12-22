@@ -24,7 +24,7 @@
 }
 
 .login__input {
-  width: 396px;
+  width: 100%;
   border: none;
   border-bottom: 1px solid #E8E8E8;
   padding-bottom: 10px;
@@ -43,7 +43,7 @@
 
 .login__button {
   margin: 221px 0 16px;
-  width: 396px;
+  width: 100%;
   border-radius: 3px;
   background-color: #3456F3;
   min-height: 45px;
@@ -56,6 +56,12 @@
   display: flex;
   justify-content: center;
   margin: 0 auto;
+}
+
+.login__logo {
+  object-fit: cover;
+  width: 38px;
+  height: 38px;
 }
 
 .login__linkAuth {
@@ -84,16 +90,11 @@
     max-width: calc(100vw - 30px*2);
   }
 
-  .login__input {
-    width: 260px;
-  }
-
   .login__container {
     width: 260px;
   }
 
   .login__button {
-    width: 260px;
     margin: 309px 0 12px;
   }
 
@@ -110,8 +111,6 @@
   }
 
   .login__logo {
-    width: 38px;
-    height: 38px;
     margin: 0 auto;
   }
 }

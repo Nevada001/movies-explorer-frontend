@@ -45,7 +45,7 @@
   margin: 0;
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1000px) {
   .card__image {
     width: 339px;
     height: 190px;

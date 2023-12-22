@@ -1,8 +1,7 @@
 import "./Profile.css";
-import { Link } from "react-router-dom";
 export default function Profile() {
   return (
-    <section className="profile">
+    <main className="profile">
       <form className="form">
         <h2 className="profile__title">Привет, Владислав!</h2>
         <div className="profile__inputs-container">
@@ -20,6 +19,6 @@ export default function Profile() {
           Выйти из аккаунта
         </button>
       </form>
-    </section>
+    </main>
   );
 }

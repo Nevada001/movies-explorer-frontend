@@ -21,10 +21,12 @@ function App() {
 
   function openMenu() {
     setMenuIsOpen(true);
+    document.body.style.overflow = 'hidden'
   }
 
   function closeMenu() {
     setMenuIsOpen(false);
+    document.body.style.overflow = 'auto'
   }
   return (
     <div className="page">

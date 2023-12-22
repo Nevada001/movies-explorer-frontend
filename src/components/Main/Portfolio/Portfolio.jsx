@@ -4,26 +4,35 @@ export default function Portfolio() {
   return (
     <section className="portfolio">
       <p className="portfolio__name">Портфолио</p>
-      <ul className="portfolio__links">
-        <li className="portfolio__link">
-          <a href="https://github.com/Nevada001/how-to-learn" target="_blank" rel="noreferrer"  className="portfolio__link-name links">
-            Статичный сайт
-          </a>
-          <p className="portfolio__link-element links">↗</p>
-        </li>
-        <li className="portfolio__link ">
-          <a target="_blank" href="https://github.com/Nevada001/russian-travel" rel="noreferrer" className="portfolio__link-name links">
-            Адаптивный сайт
-          </a>
-          <p className="portfolio__link-element links">↗</p>
-        </li>
-        <li className="portfolio__link">
-          <a target="_blank" rel="noreferrer" href="https://github.com/Nevada001/react-mesto-api-full-gha" className="portfolio__link-name links">
-            Одностраничное приложение
-          </a>
-          <p className="portfolio__link-element links">↗</p>
-        </li>
-      </ul>
+      <div className="portfolio__links">
+        <a
+          href="https://nevada001.github.io/how-to-learn"
+          target="_blank"
+          rel="noreferrer"
+          className="portfolio__link links"
+        >
+          <p className="portfolio__link-name">Статичный сайт</p>
+          <p className="portfolio__link-element">↗</p>
+        </a>
+        <a
+          target="_blank"
+          href="https://nevada001.github.io/russian-travel"
+          rel="noreferrer"
+          className="portfolio__link links"
+        >
+          <p className="portfolio__link-name">Адаптивный сайт</p>
+          <p className="portfolio__link-element">↗</p>
+        </a>
+        <a
+          className="portfolio__link links"
+          target="_blank"
+          rel="noreferrer"
+          href="https://nevada001.github.io/react-mesto-api-full-gha"
+        >
+          <p className="portfolio__link-name">Одностраничное приложение</p>
+          <p className="portfolio__link-element">↗</p>
+        </a>
+      </div>
     </section>
   );
 }

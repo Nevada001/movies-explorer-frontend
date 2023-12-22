@@ -76,7 +76,7 @@ export default function Header({ isLogin, isMenuOpen }) {
                 </Link>
                 <button
                   onClick={isMenuOpen}
-                  className={`links header__button ${
+                  className={`links header__button  ${
                     isLogin && "header__button_color_green"
                   }`}
                   alt="Кнопка авторизации"

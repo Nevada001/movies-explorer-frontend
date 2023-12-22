@@ -3,7 +3,7 @@ import logo from "../../images/logo.svg";
 import { Link } from "react-router-dom";
 export default function Login() {
   return (
-    <section className="login">
+    <main className="login">
       <img className="login__logo" src={logo} alt="Логотип" />
       <form className="form">
         <h2 className="login__title">Рады видеть!</h2>
@@ -19,6 +19,6 @@ export default function Login() {
           <Link className="login__linkAuth links" to="../signup">Регистрация</Link>
         </div>
       </form>
-    </section>
+    </main>
   );
 }

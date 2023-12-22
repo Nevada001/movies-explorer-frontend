@@ -4,10 +4,10 @@ import SearchForm from './SearchForm/SearchForm';
 
 export default function Movies({cards}) {
   return(
-    <section className='movies'>
+    <main className='movies'>
       <SearchForm />
       <MoviesCardList
       cards={cards} />
-    </section>
+    </main>
   )
 }

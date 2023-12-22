@@ -80,6 +80,7 @@
   margin: 0;
 }
 .header__button {
+  border-radius: 50px;
   background-color: #2BE080;
   cursor: pointer;
   text-align: center;
@@ -101,11 +102,13 @@
 .header__button_color_green {
   background-image: url('../../images/profile.svg');
   background-color: transparent;
+  border-radius: 50px;
 }
 
 .header__button_color_white {
   background-image: url(../../images/profilewh.svg);
   background-color: transparent;
+  
 }
 
 @media screen and (max-width: 1200px ) {
@@ -118,10 +121,17 @@
     }
 
   .header__button {
-    background-image: url(../../images/iconwhite.svg);
     object-fit: cover;
     width: 44px;
     height: 44px;
+  }
+
+  .header__button_color_green {
+    background-image: url(../../images/iconwh.svg);
+  }
+
+  .header__button_color_white {
+    background-image: url(../../images/iconbl.svg);
   }
 
   .header__button:hover {
@@ -137,15 +147,9 @@
 
 @media screen and (max-width: 700px ) {
   .header__container {
-    max-width: calc(100vw - 14px*2);
+    max-width: calc(100vw - 10px*2);
     }
 
-  .header__button_auth_active {
-    background-image: url(../../images/iconwhite.svg);
-    object-fit: cover;
-    width: 44px;
-    height: 44px;
-  }
 
   .header__button_auth_active:hover {
     opacity: 0.6;
