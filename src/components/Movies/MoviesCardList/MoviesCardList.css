@@ -1,11 +1,10 @@
 .movies__container {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  justify-content: center;
 }
 
 .cards {
-  
   list-style: none;
   padding: 0;
   display: grid;
@@ -33,7 +32,7 @@
   opacity: 0.6;
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1200px) {
   .cards {
     gap: 30px 30px;
     margin: 0;

@@ -10,14 +10,16 @@ export default function Profile() {
         </div>
         <div className="profile__inputs-container">
           <p className="profile__caption">E-mail</p>
-          <input className="profile__input" value='olis0001@yandex.ru'/>
+          <input className="profile__input" value="olis0001@yandex.ru" />
         </div>
-        <button className="profile__button links" type="submit">
-          Редактировать
-        </button>
-        <button className="profile__linkAuth links" to="../signup">
-          Выйти из аккаунта
-        </button>
+        <div className="profile__button-container">
+          <button className="profile__button links" type="submit">
+            Редактировать
+          </button>
+          <button className="profile__linkAuth links" to="../signup">
+            Выйти из аккаунта
+          </button>
+        </div>
       </form>
     </main>
   );

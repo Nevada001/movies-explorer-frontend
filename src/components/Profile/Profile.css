@@ -13,6 +13,11 @@
   line-height: normal;
 }
 
+.profile__button-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .profile__inputs-container {
   display: flex;
   justify-content: space-between;
@@ -46,7 +51,7 @@
 
 
 .profile__button {
-  margin: 221px 0 16px;
+  margin: 221px auto 16px;
   width: 410px;
   border: none;
   color: #000;

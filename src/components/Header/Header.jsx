@@ -36,7 +36,7 @@ export default function Header({ isLogin, isMenuOpen }) {
     </>
   );
   const header = (
-    <div className="header header_color_white">
+    <header className="header header_color_white">
       <div className="header__container">
         {logoLink}
         <div className="header__links">{isLogin && linksBlack}</div>
@@ -55,7 +55,7 @@ export default function Header({ isLogin, isMenuOpen }) {
           )}
         </div>
       </div>
-    </div>
+    </header>
   );
 
   return (
@@ -63,7 +63,7 @@ export default function Header({ isLogin, isMenuOpen }) {
       <Route
         path="/"
         element={
-          <div className="header">
+          <header className="header">
             <div className="header__container">
               {logoLink}
               <div className="header__links"> {isLogin && linksWhite}</div>
@@ -96,7 +96,7 @@ export default function Header({ isLogin, isMenuOpen }) {
                 )}
               </div>
             </div>
-          </div>
+          </header>
         }
       />
       <Route path="/movies" element={header} />

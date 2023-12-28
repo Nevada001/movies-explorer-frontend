@@ -1,6 +1,12 @@
 import "./SearchForm.css";
-
+import { useState } from "react";
 export default function SearchForm() {
+
+  const [turnOn, setTurnOn] = useState(true);
+
+  function buttonTurnOnToggle() {
+    turnOn ? setTurnOn(false) : setTurnOn(true)
+  }
   return (
     <section className="search">
       <form className="search__container">
@@ -10,7 +16,7 @@ export default function SearchForm() {
         </button>
       </form>
       <div className="search__captions">
-      <article className="search__element"></article>
+      <article onClick={buttonTurnOnToggle} className={`search__element ${turnOn && 'search__element_inactive'}`}></article>
       <p className="search__caption">Короткометражки</p>
       </div>
       

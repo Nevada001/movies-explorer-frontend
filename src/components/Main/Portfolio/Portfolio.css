@@ -1,5 +1,5 @@
 .portfolio {
-  max-width: calc(100% - 70px*2);
+  max-width: calc(1280px - 70px*2);
   margin: 0 auto;
 }
 
@@ -79,7 +79,7 @@
 
 @media screen and (max-width: 700px) {
   .portfolio {
-    max-width: calc(100% - 14px*2);
+    max-width: calc(100vw - 14px*2);
     margin: 0 auto;
   }
 

@@ -21,12 +21,12 @@ function App() {
 
   function openMenu() {
     setMenuIsOpen(true);
-    document.body.style.overflow = 'hidden'
+    document.body.style.overflow = "hidden";
   }
 
   function closeMenu() {
     setMenuIsOpen(false);
-    document.body.style.overflow = 'auto'
+    document.body.style.overflow = "auto";
   }
   return (
     <div className="page">
@@ -60,15 +60,13 @@ function App() {
             />
           }
         />
-        <Route path="/signup" element={<Register/>} />
-        <Route path="/signin" element={<Login/>} />
-        <Route path="/profile" element={<Profile/>} />
+        <Route path="/signup" element={<Register />} />
+        <Route path="/signin" element={<Login />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
-      <Menu 
-      isOpen={menuIsOpen}
-      onClose={closeMenu} />
       <Footer />
+      <Menu isOpen={menuIsOpen} onClose={closeMenu} />
     </div>
   );
 }

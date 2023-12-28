@@ -10,27 +10,27 @@ export default function Techs() {
           На курсе веб-разработки мы освоили технологии, которые применили в
           дипломном проекте.
         </p>
-        <ul className="techs__container">
-          <li className="techs__element">
-            <p className="techs__name">HTML</p>
+        <ul className="elements">
+          <li className="element">
+            <p className="element__name">HTML</p>
           </li>
-          <li className="techs__element">
-            <p className="techs__name">CSS</p>
+          <li className="element">
+            <p className="element__name">CSS</p>
           </li>
-          <li className="techs__element">
-            <p className="techs__name">JS</p>
+          <li className="element">
+            <p className="element__name">JS</p>
           </li>
-          <li className="techs__element">
-            <p className="techs__name">React</p>
+          <li className="element">
+            <p className="element__name">React</p>
           </li>
-          <li className="techs__element">
-            <p className="techs__name">Git</p>
+          <li className="element">
+            <p className="element__name">Git</p>
           </li>
-          <li className="techs__element">
-            <p className="techs__name">Express.js</p>
+          <li className="element">
+            <p className="element__name">Express.js</p>
           </li>
-          <li className="techs__element">
-            <p className="techs__name">mongoDB</p>
+          <li className="element">
+            <p className="element__name">mongoDB</p>
           </li>
         </ul>
       </div>

@@ -1,7 +1,7 @@
 .search {
   padding: 70px 0 33px;
   margin: 0 auto;
-  max-width: calc(100vw - 70px*2);
+  max-width: calc(1280px - 70px*2);
 }
 
 .search__container {
@@ -26,6 +26,11 @@
   line-height: 18px; /* 163.636% */
 }
 
+.search__button:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
 .search__input {
   border: none;
   color: #A0A0A0;
@@ -34,6 +39,7 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  width: 100%;
 }
 
 .search__captions {
@@ -55,6 +61,15 @@
   background-size: cover;
   width: 36px;
   height: 20px;
+}
+
+.search__element:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.search__element_inactive {
+  background-image: url(../../../images/smalltumboffInactive.svg);
 }
 
 @media screen and (max-width: 1200px) {
@@ -84,7 +99,6 @@ justify-content: center;
 }
 
 .search__input {
-  width: 200px;
   font-size: 18px;
 }
 
