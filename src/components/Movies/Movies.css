@@ -1,0 +1,17 @@
+.movies {
+  max-width: calc(1280px - 70px*2);
+  margin: 0 auto;
+}
+
+
+@media screen and (max-width: 1200px) {
+  .movies {
+    max-width: calc(100vw - 30px*2);
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .movies {
+    max-width: calc(100vw - 10px*2);
+  }
+}

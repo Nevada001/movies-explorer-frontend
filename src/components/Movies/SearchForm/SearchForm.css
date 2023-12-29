@@ -1,0 +1,110 @@
+.search {
+  padding: 70px 0 33px;
+  margin: 0 auto;
+  max-width: calc(1280px - 70px*2);
+}
+
+.search__container {
+ border-bottom: 1px solid #E8E8E8;
+ display: flex;
+ justify-content: space-between;
+ padding-bottom: 13px;
+}
+
+.search__button {
+  border: none;
+  border-radius: 48px;
+  background: #3456F3;
+  color: #FFF;
+  text-align: center;
+  width: 58.6px;
+  height: 34px;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 163.636% */
+}
+
+.search__button:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.search__input {
+  border: none;
+  color: #A0A0A0;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  width: 100%;
+}
+
+.search__captions {
+  display: flex;
+  margin: 30px auto 0;
+}
+
+.search__caption {
+  margin: 0 0 0 14px;
+  color: #000;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 138.462% */
+}
+
+.search__element {
+  background-image: url(../../../images/turnon.svg);
+  background-size: cover;
+  width: 36px;
+  height: 20px;
+}
+
+.search__element:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.search__element_inactive {
+  background-image: url(../../../images/smalltumboffInactive.svg);
+}
+
+@media screen and (max-width: 1200px) {
+  
+  .search {
+    max-width: calc(100vw - 30px*2);
+  }
+
+.search__captions {
+  margin: 30px 0 61px;
+  flex-direction: row-reverse;
+}
+
+.search__caption {
+  margin: 0 16px 0 0;
+  }
+}
+
+@media screen and (max-width: 748px) {
+
+  .search {
+    max-width: calc(100vw - 30px*2);
+  }
+  
+.search__captions {
+justify-content: center;
+}
+
+.search__input {
+  font-size: 18px;
+}
+
+
+
+.search__caption {
+  margin: 0 16px 0 0;
+  }
+}
