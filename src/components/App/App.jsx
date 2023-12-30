@@ -45,7 +45,8 @@ function App() {
           element={
             <Movies
               cards={cards.map((card) => (
-                <MoviesCard card={card} />
+                <MoviesCard card={card} 
+                key={card._id} />
               ))}
             />
           }
