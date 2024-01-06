@@ -56,11 +56,19 @@
   line-height: 18px; /* 138.462% */
 }
 
+.search__error-text {
+  text-align: center;
+}
+
 .search__element {
   background-image: url(../../../images/turnon.svg);
   background-size: cover;
   width: 36px;
   height: 20px;
+}
+
+.search__input-caption {
+  color: red;
 }
 
 .search__element:hover {
