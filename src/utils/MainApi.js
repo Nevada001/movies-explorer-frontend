@@ -11,3 +11,14 @@ export const getSavedMovies = () => {
   return fetch(`${BASE_URL_MAIN}/movies`)
   .then(getResponse)
 }
+
+export const register = (name, email, password) => {
+  return fetch(`${BASE_URL_MAIN}/signup`, {
+    method: 'POST',
+    headers: {
+      'Content-type': 'application/json'
+    }, 
+    body: JSON.stringify({name, email, password})
+  })
+  .then(getResponse)
+}

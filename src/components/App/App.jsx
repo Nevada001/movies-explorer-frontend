@@ -5,7 +5,7 @@ import * as moviesApi from "../../utils/MoviesApi";
 import * as MainApi from "../../utils/MainApi";
 import "./App.css";
 import Footer from "../Footer/Footer";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Movies from "../Movies/Movies";
 import MoviesCard from "../Movies/MoviesCard/MoviesCard";
 import SavedMovies from "../SavedMovies/SavedMovies";
@@ -21,38 +21,68 @@ import {
   SCREEN_XS,
 } from "../../constants/const-breakpoints";
 import { useResize } from "../hooks/resize";
+import { movieQueryText, movies } from "../../constants/const-localStorage";
 
 function App() {
-  const [isMoreMovies, setIsMoreMovies] = useState(false)
+  const {amountOfMovies, setAmountOfMovies} = useResize();
+  const [isMoreMovies, setIsMoreMovies] = useState(false);
   const [screen, setScreen] = useState();
   const [isLogin, setIsLogin] = useState(true);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [caption, setCaption] = useState("");
+  const [turnOn, setTurnOn] = useState(false)
   const [movie, setMovie] = useState("");
   const [isButtonMore, setIsButtonMore] = useState(false);
+  const navigate = useNavigate();
 
-  const width = useResize();
+
+  useEffect(() => {
+    const moviesFromStorage = JSON.parse(localStorage.getItem(movies));
+    setCards(moviesFromStorage)
+    if (cards.length > amountOfMovies.totalAmount) {
+      setIsButtonMore(true);
+    } else {
+      setIsButtonMore(false);
+    }
+  },[amountOfMovies])
+
+
+function handleTurnOn() {
+  turnOn ? setTurnOn(false) : setTurnOn(true)
+}
+
   function handleChangeMovie(movie) {
     setMovie(movie);
   }
-
   function handleShowMoreMovies() {
-    setIsMoreMovies(true)
+    const windowWidth = window.innerWidth;
+
+    if( windowWidth >= SCREEN_L) {
+    setAmountOfMovies({...amountOfMovies,
+    totalAmount:  amountOfMovies.totalAmount + 4})
   }
-  useEffect(() => {
-    setScreen(width);
-    console.log(width)
-    searchMovies();
-    setIsMoreMovies(false)
-  }, [width, isMoreMovies]);
+  else if( windowWidth >= SCREEN_M) {
+    setAmountOfMovies({...amountOfMovies,
+    totalAmount:  amountOfMovies.totalAmount + 2})
+  }
+  else if( windowWidth < SCREEN_M) {
+    setAmountOfMovies({...amountOfMovies,
+    totalAmount:  amountOfMovies.totalAmount + 2})
+  }
+  }
 
-
-  function manageNumberOfMovies(arr, newArr, x, y) {
-    for (let i = x; i < arr.length && i < y; i++) {
-      newArr.push(arr[i]);
-    }
+  function handleRegister({ name, email, password }) {
+    MainApi.register(name, email, password)
+      .then((res) => {
+        if (res) {
+          navigate("/signin");
+        }
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+      });
   }
 
   function filterMovies(arr, name) {
@@ -62,22 +92,9 @@ function App() {
         return el;
       }
     });
-    if (result.length > 16) {
-      setIsButtonMore(true);
-    } else {
-      setIsButtonMore(false);
-    }
-    let moviesReturned = [];
-    if (width >= SCREEN_L) {
-      manageNumberOfMovies(result, moviesReturned, 0, 16);
-      setCards(moviesReturned);
-    } else if (width >= SCREEN_M) {
-      manageNumberOfMovies(result, moviesReturned, 0, 8);
-      setCards(moviesReturned);
-    } else if (width >= SCREEN_XS && width < SCREEN_M) {
-      manageNumberOfMovies(result, moviesReturned, 0, 5);
-      setCards(moviesReturned);
-    }
+    localStorage.setItem(movieQueryText, name);
+    localStorage.setItem(movies, JSON.stringify(result));
+    setCards(result);
     if (result.length === 0) {
       setCaption("Ничего не найдено");
     } else {
@@ -87,10 +104,11 @@ function App() {
 
   function handleSearchMovies(apiMethod) {
     setIsLoading(true);
-    setCards([]);
     apiMethod()
       .then((cards) => {
+        console.log(cards)
         filterMovies(cards, movie);
+
       })
       .catch(() => {
         setCaption(
@@ -135,13 +153,14 @@ function App() {
           path="/movies"
           element={
             <Movies
-              isMoreMovies={handleShowMoreMovies}
+              isTurnOn={handleTurnOn}  
+              showMoreMovies={handleShowMoreMovies}
               isButtonMovie={isButtonMore}
               onChange={handleChangeMovie}
               caption={caption}
               isLoading={isLoading}
               onShowMovies={searchMovies}
-              cards={cards.map((card) => (
+              cards={cards.slice(0, amountOfMovies.totalAmount).map((card) => (
                 <MoviesCard card={card} key={card.id} />
               ))}
             />
@@ -161,7 +180,10 @@ function App() {
             />
           }
         />
-        <Route path="/signup" element={<Register />} />
+        <Route
+          path="/signup"
+          element={<Register onRegister={handleRegister} />}
+        />
         <Route path="/signin" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/*" element={<NotFound />} />

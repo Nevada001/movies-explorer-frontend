@@ -1,10 +1,10 @@
 import Preloader from "../../Preloader/Preloader";
 import "./MoviesCardList.css";
 
-export default function MoviesCardList({ cards, isLoading, isMoreMovies, isCaption, isButtonMovie }) {
+export default function MoviesCardList({ cards, isLoading, showMoreMovies, isCaption, isButtonMovie }) {
 
   function handleLoadMovies() {
-    isMoreMovies();
+    showMoreMovies();
   }
 
   return (

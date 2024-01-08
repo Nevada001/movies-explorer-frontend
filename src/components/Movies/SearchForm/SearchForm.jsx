@@ -1,20 +1,28 @@
 import { useForm } from "react-hook-form";
 import "./SearchForm.css";
-import { useState } from "react";
 import { useLocation } from "react-router";
+import { useEffect, useState } from "react";
+import { checkBoxState } from "../../../constants/const-localStorage";
 export default function SearchForm({
+  isTurnOn,
   onShowMovies,
   onChange,
   caption,
   onShowSavedMovies,
 }) {
+  const [turnState, setTurnState] = useState(false);
   const {
     register,
     formState: { errors },
     handleSubmit,
   } = useForm();
-  const [turnOn, setTurnOn] = useState(true);
   const location = useLocation();
+
+  useEffect(() => {
+    localStorage.getItem(checkBoxState) === "true"
+      ? setTurnState(false)
+      : setTurnState(true);
+  }, [turnState]);
 
   function onSubmitMovies(data, e) {
     e.preventDefault();
@@ -26,19 +34,18 @@ export default function SearchForm({
     onShowSavedMovies();
   }
 
-
+  function shortFilmsToggle() {
+    turnState ? setTurnState(false) : setTurnState(true);
+    localStorage.setItem(checkBoxState, turnState);
+  }
 
   function handleChangeMovie(e) {
     onChange(e.target.value);
   }
 
-  function buttonTurnOnToggle() {
-    turnOn ? setTurnOn(false) : setTurnOn(true);
-  }
   return (
     <section className="search">
       <form
-        
         onSubmit={
           location.pathname === "/saved-movies"
             ? handleSubmit(onSubmitSavedMovies)
@@ -48,13 +55,12 @@ export default function SearchForm({
       >
         <input
           {...register("movies", {
-             required: "Нужно ввести ключевое слово",
-             pattern: {
+            required: "Нужно ввести ключевое слово",
+            pattern: {
               value: /^[\S].*$/,
-              message: "Нужно ввести ключевое слово" 
-            }
-          }
-          )}
+              message: "Нужно ввести ключевое слово",
+            },
+          })}
           onChange={handleChangeMovie}
           className="search__input"
           type="text"
@@ -70,8 +76,10 @@ export default function SearchForm({
       <p className="search__error-text">{caption}</p>
       <div className="search__captions">
         <article
-          onClick={buttonTurnOnToggle}
-          className={`search__element ${turnOn && "search__element_inactive"}`}
+          onClick={shortFilmsToggle}
+          className={`search__element ${
+            turnState && "search__element_inactive"
+          }`}
         ></article>
         <p className="search__caption">Короткометражки</p>
       </div>
