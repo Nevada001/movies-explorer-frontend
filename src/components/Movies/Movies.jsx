@@ -2,16 +2,19 @@ import './Movies.css';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import SearchForm from './SearchForm/SearchForm';
 
-export default function Movies({cards, isTurnOn, onShowMovies, showMoreMovies, isButtonMovie, loadMovies, onChange, onShowSavedMovies, caption, isLoading}) {
+export default function Movies({cards, savedCards, onMovieAdd, isShowShortMovies, onShowMovies, showMoreMovies, isButtonMovie, loadMovies, onChange, onShowSavedMovies, caption, isLoading}) {
   return(
     <main className='movies'>
-      <SearchForm  caption={caption} isTurnOn={isTurnOn} onChange={onChange} onShowMovies={onShowMovies} onShowSavedMovies={onShowSavedMovies} />
+      <SearchForm  caption={caption} isShowShortMovies={isShowShortMovies}  onChange={onChange} onShowMovies={onShowMovies} onShowSavedMovies={onShowSavedMovies} />
       <MoviesCardList
+    
+      savedCards={savedCards}
       showMoreMovies={showMoreMovies}
       loadMovies={loadMovies}
       isButtonMovie={isButtonMovie}
       isLoading={isLoading}
-      cards={cards} />
+      cards={cards}
+      onMovieAdd={onMovieAdd} />
       
     </main>
   )

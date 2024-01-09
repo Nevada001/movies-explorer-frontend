@@ -4,7 +4,7 @@ import { useLocation } from "react-router";
 import { useEffect, useState } from "react";
 import { checkBoxState } from "../../../constants/const-localStorage";
 export default function SearchForm({
-  isTurnOn,
+  isShowShortMovies,
   onShowMovies,
   onChange,
   caption,
@@ -37,6 +37,7 @@ export default function SearchForm({
   function shortFilmsToggle() {
     turnState ? setTurnState(false) : setTurnState(true);
     localStorage.setItem(checkBoxState, turnState);
+    isShowShortMovies()
   }
 
   function handleChangeMovie(e) {
