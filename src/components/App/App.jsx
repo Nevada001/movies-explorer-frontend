@@ -22,12 +22,14 @@ import {
   jwt,
   movieQueryText,
   movies,
+  savedMovies,
 } from "../../constants/const-localStorage";
 import { CurrentUserContext } from "../../contexts/CurrentUser";
 import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElement";
 
 function App() {
   const { amountOfMovies, setAmountOfMovies } = useResize();
+  const [isCheckBox, setIsCheckBox] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isLogin, setIsLogin] = useState(false);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -41,21 +43,31 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
+
   useEffect(() => {
     checkToken();
   }, [isLogin]);
 
+
+  function checkBoxToggle() {
+  localStorage.getItem(checkBoxState) === 'true' ? setIsCheckBox(true) : setIsCheckBox(false);
+  }
   useEffect(() => {
     if (isLogin) {
       Promise.all([mainApi.getSavedMovies(), mainApi.getUserData()]).then(
         ([movies, user]) => {
           setCurrentUser(user);
           setSavedCards(movies.reverse());
-          localStorage.setItem('savedMovies', JSON.stringify(movies))
+          localStorage.setItem(savedMovies, JSON.stringify(movies))
+          if (movies.length === 0) {
+            setCaption("Ничего не найдено");
+          } else {
+            setCaption("");
+          }
         }
       );
     }
-
+    
     if (isLogin) {
       const moviesFromStorage = JSON.parse(localStorage.getItem(movies));
       const inputMovieText = localStorage.getItem(movieQueryText);
@@ -64,6 +76,11 @@ function App() {
       }
       setMovie(inputMovieText);
       setCards(moviesFromStorage);
+      if (moviesFromStorage.length === 0) {
+        setCaption("Ничего не найдено");
+      } else {
+        setCaption("");
+      }
       if (cards.length > amountOfMovies.totalAmount) {
         setIsButtonMore(true);
       } else {
@@ -136,11 +153,7 @@ function App() {
   }
 
   function handleMovieDelete(selectedCard) {
-    console.log(selectedCard)
     const checkIsSaved = savedCards.some((el) => el._id === selectedCard._id);
-    console.log(checkIsSaved)
-    console.log(savedCards);
-    console.log(selectedCard)
     if (checkIsSaved) {
       mainApi
         .deleteMovieFromSaved(selectedCard)
@@ -173,7 +186,6 @@ function App() {
           thumbNail: `${moviesApi.BASE_URL}${card.image.formats.thumbnail.url}`,
         })
         .then((card) => {
-          console.log(card);
           setSavedCards([card, ...savedCards]);
           savedCards.reverse();
         })
@@ -211,6 +223,7 @@ function App() {
       });
   }
 
+
   function filterMovies(arr, name) {
     const word = name[0].toUpperCase() + name.slice(1);
     const result = arr.filter((el) => {
@@ -226,9 +239,9 @@ function App() {
 
     localStorage.setItem(movieQueryText, name);
     localStorage.setItem(movies, JSON.stringify(result));
-    setCards(result);
+    location.pathname === '/movies' ?  setCards(result) : setSavedCards(result);
 
-    if (result.length === 0) {
+    if (result.length === 0 || movies.length === 0) {
       setCaption("Ничего не найдено");
     } else {
       setCaption("");
@@ -262,9 +275,26 @@ function App() {
     handleSearchMovies(moviesApi.getMovies);
   }
 
-  function searchSavedMovies() {
-    handleSearchMovies(mainApi.getSavedMovies);
+  function searchShortSavedMovies() {
+    const savedMov = JSON.parse(localStorage.getItem(savedMovies));
+    if(!savedMov) {
+      return;
+    }
+    if(localStorage.getItem(checkBoxState) === 'true') {
+    const shortSavedCards = savedMov.filter((el) => {if (el.duration < 40) {
+      return el;
+    }});
+    setSavedCards(shortSavedCards)}
+    else {
+      setSavedCards(savedMov);
+    }
   }
+
+  function searchSavedMovies() {
+    const savedMov = JSON.parse(localStorage.getItem(savedMovies));
+    filterMovies(savedMov, movie)
+    }
+  
 
   function openMenu() {
     setMenuIsOpen(true);
@@ -323,6 +353,7 @@ function App() {
               <ProtectedRouteElement
                 element={SavedMovies}
                 isLogin={isLogin}
+                isShowShortMovies={searchShortSavedMovies}
                 isButtonMovie={isButtonMore}
                 onChange={handleChangeMovie}
                 caption={caption}

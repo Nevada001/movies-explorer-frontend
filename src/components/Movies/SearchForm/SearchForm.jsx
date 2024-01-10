@@ -22,6 +22,7 @@ export default function SearchForm({
     localStorage.getItem(checkBoxState) === "true"
       ? setTurnState(false)
       : setTurnState(true);
+    isShowShortMovies()
   }, [turnState]);
 
   function onSubmitMovies(data, e) {
