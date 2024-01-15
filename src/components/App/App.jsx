@@ -37,43 +37,40 @@ function App() {
   const [savedCards, setSavedCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [caption, setCaption] = useState("");
+  const [savedCaption, setSavedCaption] = useState("");
   const [turnOn, setTurnOn] = useState(false);
   const [movie, setMovie] = useState("");
   const [isButtonMore, setIsButtonMore] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-
   useEffect(() => {
     checkToken();
   }, [isLogin]);
 
-
-  function checkBoxToggle() {
-  localStorage.getItem(checkBoxState) === 'true' ? setIsCheckBox(true) : setIsCheckBox(false);
-  }
   useEffect(() => {
     if (isLogin) {
       Promise.all([mainApi.getSavedMovies(), mainApi.getUserData()]).then(
         ([movies, user]) => {
+          if (movies.length === 0) {
+            setSavedCaption("Ничего не найдено");
+          } else {
+            setSavedCaption("");
+          }
           setCurrentUser(user);
           setSavedCards(movies.reverse());
-          localStorage.setItem(savedMovies, JSON.stringify(movies))
-          if (movies.length === 0) {
-            setCaption("Ничего не найдено");
-          } else {
-            setCaption("");
-          }
+          localStorage.setItem(savedMovies, JSON.stringify(movies));
         }
       );
     }
-    
+
     if (isLogin) {
       const moviesFromStorage = JSON.parse(localStorage.getItem(movies));
       const inputMovieText = localStorage.getItem(movieQueryText);
       if (!moviesFromStorage || !inputMovieText) {
-        return;
+        setCards([]);
       }
+      else {
       setMovie(inputMovieText);
       setCards(moviesFromStorage);
       if (moviesFromStorage.length === 0) {
@@ -87,7 +84,11 @@ function App() {
         setIsButtonMore(false);
       }
     }
-  }, [amountOfMovies, isLogin]);
+  }
+    if (cards > 0) {
+      setCaption('')
+    }
+  }, [amountOfMovies, isLogin, location]);
 
   function checkToken() {
     if (localStorage.getItem(jwt)) {
@@ -106,11 +107,12 @@ function App() {
     turnOn ? setTurnOn(false) : setTurnOn(true);
   }
 
-  function handleUpdateUser(currentUser) {
+  function handleUpdateUser({ name, email }) {
     setIsLoading(true);
     mainApi
-      .updateUser(currentUser.name, currentUser.email)
+      .updateUser({ name, email })
       .then((userData) => {
+        console.log(userData);
         setCurrentUser(userData);
         setIsLoading(false);
       })
@@ -148,23 +150,25 @@ function App() {
   }
 
   const isAdded = (movie) => {
-  const result =  savedCards.some((card) => card.movieId === movie.id);
-  return result;
-  }
+    const result = savedCards.some((card) => card.movieId === movie.id);
+    return result;
+  };
 
   function handleMovieDelete(selectedCard) {
     const checkIsSaved = savedCards.some((el) => el._id === selectedCard._id);
     if (checkIsSaved) {
       mainApi
         .deleteMovieFromSaved(selectedCard)
-        .then(() => {  
-          setSavedCards((state) => (state.filter((el) => (el._id !== selectedCard._id))));
+        .then(() => {
+          setSavedCards((state) =>
+            state.filter((el) => el._id !== selectedCard._id)
+          );
         })
         .catch((err) => {
           console.log(err);
         });
     }
-    return
+    return;
   }
 
   function handleMovieAdd(card) {
@@ -173,7 +177,7 @@ function App() {
       mainApi
         .addMovieToSaved({
           _id: card._id,
-          country: card.country.slice(0,29),
+          country: card.country.slice(0, 29),
           director: card.director,
           duration: card.duration,
           year: card.year,
@@ -197,7 +201,7 @@ function App() {
 
   function handleLogin({ email, password }) {
     mainApi
-      .authorize(email, password)
+      .authorize({email, password})
       .then((res) => {
         if (res.token) {
           setIsLogin(true);
@@ -212,7 +216,7 @@ function App() {
 
   function handleRegister({ name, email, password }) {
     mainApi
-      .register(name, email, password)
+      .register({name, email, password})
       .then((res) => {
         if (res) {
           handleLogin({ email, password });
@@ -222,7 +226,6 @@ function App() {
         console.log(`Ошибка: ${err}`);
       });
   }
-
 
   function filterMovies(arr, name) {
     const word = name[0].toUpperCase() + name.slice(1);
@@ -239,7 +242,7 @@ function App() {
 
     localStorage.setItem(movieQueryText, name);
     localStorage.setItem(movies, JSON.stringify(result));
-    location.pathname === '/movies' ?  setCards(result) : setSavedCards(result);
+    location.pathname === "/movies" ? setCards(result) : setSavedCards(result);
 
     if (result.length === 0 || movies.length === 0) {
       setCaption("Ничего не найдено");
@@ -249,6 +252,10 @@ function App() {
   }
 
   function handleSearchMovies(apiMethod) {
+    if(movie === '') {
+      setCaption("Ничего не найдено")
+    } 
+    else {
     setIsLoading(true);
     apiMethod()
       .then((cards) => {
@@ -262,12 +269,14 @@ function App() {
       .finally(() => {
         setIsLoading(false);
       });
+    }
   }
 
   function handleLogOut() {
     localStorage.clear();
     setCurrentUser({});
     setIsLogin(false);
+    setMovie('')
     navigate("/");
   }
 
@@ -277,24 +286,25 @@ function App() {
 
   function searchShortSavedMovies() {
     const savedMov = JSON.parse(localStorage.getItem(savedMovies));
-    if(!savedMov) {
+    if (!savedMov) {
       return;
     }
-    if(localStorage.getItem(checkBoxState) === 'true') {
-    const shortSavedCards = savedMov.filter((el) => {if (el.duration < 40) {
-      return el;
-    }});
-    setSavedCards(shortSavedCards)}
-    else {
+    if (localStorage.getItem(checkBoxState) === "true") {
+      const shortSavedCards = savedMov.filter((el) => {
+        if (el.duration < 40) {
+          return el;
+        }
+      });
+      setSavedCards(shortSavedCards);
+    } else {
       setSavedCards(savedMov);
     }
   }
 
   function searchSavedMovies() {
     const savedMov = JSON.parse(localStorage.getItem(savedMovies));
-    filterMovies(savedMov, movie)
-    }
-  
+    filterMovies(savedMov, movie);
+  }
 
   function openMenu() {
     setMenuIsOpen(true);
@@ -356,24 +366,28 @@ function App() {
                 isShowShortMovies={searchShortSavedMovies}
                 isButtonMovie={isButtonMore}
                 onChange={handleChangeMovie}
-                caption={caption}
+                caption={savedCaption}
                 onShowSavedMovies={searchSavedMovies}
                 savedCards={savedCards.map((savedCard) => (
-                  <SavedMoviesCard 
-                  key={savedCard._id}
-                  savedCards={savedCards}
-                  isAdded={isAdded(savedCard)}
-                  onMovieDelete={handleMovieDelete}
-                  savedCard={savedCard} />
+                  <SavedMoviesCard
+                    key={savedCard._id}
+                    savedCards={savedCards}
+                    isAdded={isAdded(savedCard)}
+                    onMovieDelete={handleMovieDelete}
+                    savedCard={savedCard}
+                  />
                 ))}
               />
             }
           />
           <Route
             path="/signup"
-            element={<Register onRegister={handleRegister} />}
+            element={<Register isLogin={isLogin} onRegister={handleRegister} />}
           />
-          <Route path="/signin" element={<Login onLogin={handleLogin} />} />
+          <Route
+            path="/signin"
+            element={<Login isLogin={isLogin} onLogin={handleLogin} />}
+          />
           <Route
             path="/profile"
             element={

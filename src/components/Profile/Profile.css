@@ -3,6 +3,17 @@
   max-width: 410px;
 }
 
+.input-error {
+  width: 100%;
+  display: none;
+  min-height: 16px;
+  color: red;
+}
+
+.input-error_active {
+display: block;
+}
+
 .profile__title {
   margin: 40px 0;
   text-align: center;
@@ -61,6 +72,11 @@
   font-weight: 400;
   line-height: normal;
   background-color: transparent;
+}
+
+
+.profile__button_inactive{
+  opacity: 0.5;
 }
 
 .profile__linkAuth {

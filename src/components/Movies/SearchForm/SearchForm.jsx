@@ -10,7 +10,7 @@ export default function SearchForm({
   caption,
   onShowSavedMovies,
 }) {
-  const [turnState, setTurnState] = useState(false);
+  const [turnState, setTurnState] = useState(true);
   const {
     register,
     formState: { errors },
@@ -18,12 +18,6 @@ export default function SearchForm({
   } = useForm();
   const location = useLocation();
 
-  useEffect(() => {
-    localStorage.getItem(checkBoxState) === "true"
-      ? setTurnState(false)
-      : setTurnState(true);
-    isShowShortMovies()
-  }, [turnState]);
 
   function onSubmitMovies(data, e) {
     e.preventDefault();

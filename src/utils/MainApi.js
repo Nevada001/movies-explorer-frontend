@@ -1,4 +1,3 @@
-
 import { jwt } from "../constants/const-localStorage";
 
 export const BASE_URL_MAIN = "https://api.nevadamovies.nomoredomainsmonster.ru";
@@ -17,29 +16,28 @@ export const getUserData = () => {
       authorization: `Bearer ${token}`,
       "Content-type": "application/json",
     },
-  }).then(getResponse)
-}
+  }).then(getResponse);
+};
 
-export const updateUser = (name, email) => {
+export const updateUser = (formValues) => {
   const token = localStorage.getItem(jwt);
-  return fetch(`${BASE_URL_MAIN}/users/me`, 
-  { method: 'PATCH',
+  return fetch(`${BASE_URL_MAIN}/users/me`, {
+    method: "PATCH",
     headers: {
       authorization: `Bearer ${token}`,
-      'Content-type': 'application/json'
+      "Content-type": "application/json",
     },
-    body: JSON.stringify({name, email})
-  })
-  .then(getResponse)
-}
+    body: JSON.stringify({ name: formValues.name, email: formValues.email }),
+  }).then(getResponse);
+};
 
-export const authorize = (email, password) => {
+export const authorize = (formValues) => {
   return fetch(`${BASE_URL_MAIN}/signin`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ email: formValues.email, password: formValues.password }),
   }).then(getResponse);
 };
 
@@ -53,13 +51,13 @@ export const getSavedMovies = () => {
   }).then(getResponse);
 };
 
-export const register = (name, email, password) => {
+export const register = (formValues) => {
   return fetch(`${BASE_URL_MAIN}/signup`, {
     method: "POST",
     headers: {
       "Content-type": "application/json",
     },
-    body: JSON.stringify({ name, email, password }),
+    body: JSON.stringify({ name: formValues.name, email: formValues.email, password: formValues.password }),
   }).then(getResponse);
 };
 
@@ -69,12 +67,13 @@ export const deleteMovieFromSaved = (cardItem) => {
     method: "DELETE",
     headers: {
       authorization: `Bearer ${token}`,
-      'Content-type': 'application/json'
+      "Content-type": "application/json",
     },
-  })
-}
+  });
+};
 
-export const addMovieToSaved = ({country,
+export const addMovieToSaved = ({
+  country,
   _id,
   director,
   duration,
@@ -85,15 +84,17 @@ export const addMovieToSaved = ({country,
   movieId,
   nameRU,
   nameEN,
-  thumbNail}) => {
+  thumbNail,
+}) => {
   const token = localStorage.getItem(jwt);
   return fetch(`${BASE_URL_MAIN}/movies`, {
-    method: 'POST',
+    method: "POST",
     headers: {
       authorization: `Bearer ${token}`,
       "Content-type": "application/json",
     },
-    body:JSON.stringify({country,
+    body: JSON.stringify({
+      country,
       _id,
       director,
       duration,
@@ -104,17 +105,17 @@ export const addMovieToSaved = ({country,
       movieId,
       nameRU,
       nameEN,
-      thumbNail})
-  }).then(getResponse)
-}
+      thumbNail,
+    }),
+  }).then(getResponse);
+};
 
 export const getContent = (token) => {
   return fetch(`${BASE_URL_MAIN}/users/me`, {
-    method: 'GET',
+    method: "GET",
     headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-    }
-  })
-  .then(getResponse)
-} 
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  }).then(getResponse);
+};
