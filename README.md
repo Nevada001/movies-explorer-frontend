@@ -5,6 +5,6 @@
 
 Ссылка на сайт проекта: https://nevadamovies.nomoredomainsmonster.ru
 Api: https://api.nevadamovies.nomoredomainsmonster.ru
-
+Ссылка на репозиторий гитхаб и пулк реквест: https://github.com/Nevada001/movies-explorer-frontend
 
 
