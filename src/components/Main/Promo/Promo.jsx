@@ -16,7 +16,7 @@ export default function Promo() {
           <p className="promo__caption">
             Листайте ниже, чтобы узнать больше про этот проект и его создателя.
           </p>
-          <button className="promo__button-info">Узнать больше</button>
+          <a className="promo__button-link links" href="#description">Узнать больше</a>
         </div>
       </div>
     </section>

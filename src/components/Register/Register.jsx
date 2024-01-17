@@ -3,7 +3,7 @@ import logo from "../../images/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import useFormValidation from "../hooks/FormValidation";
-export default function Register({ isLogin, onRegister }) {
+export default function Register({ isLogin, regErr, onRegister }) {
   const navigate = useNavigate();
   const { values, errors, formValid, handleInputChange, resetFormValues } =
     useFormValidation();
@@ -31,6 +31,7 @@ export default function Register({ isLogin, onRegister }) {
         <h2 className="register__title">Добро пожаловать!</h2>
         <p className="register__caption">Имя</p>
         <input
+          required
           name="name"
           value={values.name}
           onChange={handleInputChangeFromHook}
@@ -41,6 +42,7 @@ export default function Register({ isLogin, onRegister }) {
         </span>
         <p className="register__caption">E-mail</p>
         <input
+          required
           name="email"
           value={values.email}
           onChange={handleInputChangeFromHook}
@@ -51,13 +53,14 @@ export default function Register({ isLogin, onRegister }) {
         </span>
         <p className="register__caption">Пароль</p>
         <input
+          required
           name="password"
           value={values.password}
           onChange={handleInputChangeFromHook}
           type="password"
           className="register__input"
         />
-        <span className="input-error input-error_active">
+        <span className="error">
           {errors.password || ""}
         </span>
         <button
@@ -69,6 +72,7 @@ export default function Register({ isLogin, onRegister }) {
         >
           Зарегистрироваться
         </button>
+        <span className="error">{regErr}</span>
         <div className="register__container">
           <p className="register__caption-bottom">Уже зарегистрированы?</p>
           <Link className="register__linkAuth links" to="../signin">

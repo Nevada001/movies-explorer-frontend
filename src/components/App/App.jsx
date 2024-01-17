@@ -22,14 +22,15 @@ import {
   jwt,
   movieQueryText,
   movies,
+  savedMovieQueryText,
   savedMovies,
 } from "../../constants/const-localStorage";
 import { CurrentUserContext } from "../../contexts/CurrentUser";
 import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElement";
 
 function App() {
+  const [regErrorMes, setRegErrorMes] = useState("");
   const { amountOfMovies, setAmountOfMovies } = useResize();
-  const [isCheckBox, setIsCheckBox] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [isLogin, setIsLogin] = useState(false);
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -38,8 +39,8 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [caption, setCaption] = useState("");
   const [savedCaption, setSavedCaption] = useState("");
-  const [turnOn, setTurnOn] = useState(false);
   const [movie, setMovie] = useState("");
+  const [savedMovie, setSavedMovie] = useState("");
   const [isButtonMore, setIsButtonMore] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
@@ -49,7 +50,11 @@ function App() {
   }, [isLogin]);
 
   useEffect(() => {
-    if (isLogin) {
+    const moviesFromStorage = JSON.parse(localStorage.getItem(movies));
+    const inputMovieText = localStorage.getItem(movieQueryText);
+    location.pathname === "/movies" &&
+      filterMovies(moviesFromStorage, inputMovieText);
+    isLogin &&
       Promise.all([mainApi.getSavedMovies(), mainApi.getUserData()]).then(
         ([movies, user]) => {
           if (movies.length === 0) {
@@ -58,37 +63,33 @@ function App() {
             setSavedCaption("");
           }
           setCurrentUser(user);
-          setSavedCards(movies.reverse());
+          loadSaveMovies(movies);
           localStorage.setItem(savedMovies, JSON.stringify(movies));
         }
       );
-    }
 
     if (isLogin) {
-      const moviesFromStorage = JSON.parse(localStorage.getItem(movies));
-      const inputMovieText = localStorage.getItem(movieQueryText);
       if (!moviesFromStorage || !inputMovieText) {
         setCards([]);
-      }
-      else {
-      setMovie(inputMovieText);
-      setCards(moviesFromStorage);
-      if (moviesFromStorage.length === 0) {
-        setCaption("Ничего не найдено");
       } else {
-        setCaption("");
-      }
-      if (cards.length > amountOfMovies.totalAmount) {
-        setIsButtonMore(true);
-      } else {
-        setIsButtonMore(false);
+        // setMovie(inputMovieText);
+        //setCards(moviesFromStorage);
+        if (moviesFromStorage.length === 0) {
+          setCaption("Ничего не найдено");
+        } else {
+          setCaption("");
+        }
+        if (cards.length > amountOfMovies.totalAmount) {
+          setIsButtonMore(true);
+        } else {
+          setIsButtonMore(false);
+        }
       }
     }
-  }
     if (cards > 0) {
-      setCaption('')
+      setCaption("");
     }
-  }, [amountOfMovies, isLogin, location]);
+  }, [amountOfMovies, isLogin, location, localStorage.getItem(checkBoxState)]);
 
   function checkToken() {
     if (localStorage.getItem(jwt)) {
@@ -101,10 +102,6 @@ function App() {
         }
       });
     }
-  }
-
-  function handleTurnOn() {
-    turnOn ? setTurnOn(false) : setTurnOn(true);
   }
 
   function handleUpdateUser({ name, email }) {
@@ -123,6 +120,10 @@ function App() {
       .finally(() => {
         setIsLoading(false);
       });
+  }
+
+  function handleChangeSavedMovie(savedMovie) {
+    setSavedMovie(savedMovie);
   }
 
   function handleChangeMovie(movie) {
@@ -201,7 +202,7 @@ function App() {
 
   function handleLogin({ email, password }) {
     mainApi
-      .authorize({email, password})
+      .authorize({ email, password })
       .then((res) => {
         if (res.token) {
           setIsLogin(true);
@@ -216,33 +217,33 @@ function App() {
 
   function handleRegister({ name, email, password }) {
     mainApi
-      .register({name, email, password})
+      .register({ name, email, password })
       .then((res) => {
         if (res) {
+          setRegErrorMes("");
           handleLogin({ email, password });
         }
+        return;
       })
       .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      });
+        console.log(err);
+        setRegErrorMes(
+          "Пожалуйста введите корректные данные или убедитесь, что регистрируетесь впервые"
+        );
+      })
+      .finally(() => {});
   }
 
-  function filterMovies(arr, name) {
-    const word = name[0].toUpperCase() + name.slice(1);
+  function loadSaveMovies(arr) {
     const result = arr.filter((el) => {
       if (
-        localStorage.getItem(checkBoxState) === "true"
-          ? (el.nameRU.startsWith(word) || el.nameEN.startsWith(word)) &&
-            el.duration < 40
-          : el.nameRU.startsWith(word) || el.nameEN.startsWith(word)
+        localStorage.getItem(checkBoxState) === "true" ? el.duration < 40 : el
       ) {
         return el;
       }
     });
-
-    localStorage.setItem(movieQueryText, name);
-    localStorage.setItem(movies, JSON.stringify(result));
-    location.pathname === "/movies" ? setCards(result) : setSavedCards(result);
+    localStorage.setItem(savedMovies, JSON.stringify(result));
+    setSavedCards(result);
 
     if (result.length === 0 || movies.length === 0) {
       setCaption("Ничего не найдено");
@@ -251,24 +252,62 @@ function App() {
     }
   }
 
+  function filterMovies(arr, name) {
+    if (name === "" || undefined) {
+      return;
+    }
+    const word = name[0].toUpperCase() + name.slice(1);
+    const result = arr.filter((el) => {
+      if (
+        localStorage.getItem(checkBoxState) === "true"
+          ? (el.nameRU.includes(word) || el.nameEN.includes(word)) &&
+            el.duration < 40
+          : el.nameRU.includes(word) || el.nameEN.includes(word)
+      ) {
+        return el;
+      }
+    });
+
+    location.pathname === "/movies"
+      ? localStorage.setItem(movieQueryText, name)
+      : localStorage.setItem(savedMovieQueryText, name);
+    if (location.pathname === "/movies") {
+      setCards(result);
+      localStorage.setItem(movies, JSON.stringify(result));
+    } else {
+      setSavedCards(result);
+      localStorage.setItem(savedMovies, JSON.stringify(result));
+    }
+
+    if (result.length === 0 || movies.length === 0) {
+      setCaption("Ничего не найдено");
+    } else {
+      setCaption("");
+    }
+    if (result.length > amountOfMovies.totalAmount) {
+      setIsButtonMore(true);
+    } else {
+      setIsButtonMore(false);
+    }
+  }
+
   function handleSearchMovies(apiMethod) {
-    if(movie === '') {
-      setCaption("Ничего не найдено")
-    } 
-    else {
-    setIsLoading(true);
-    apiMethod()
-      .then((cards) => {
-        filterMovies(cards, movie);
-      })
-      .catch(() => {
-        setCaption(
-          "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
-        );
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (movie === "") {
+      setCaption("Ничего не найдено");
+    } else {
+      setIsLoading(true);
+      apiMethod()
+        .then((cards) => {
+          filterMovies(cards, movie);
+        })
+        .catch(() => {
+          setCaption(
+            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+          );
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     }
   }
 
@@ -276,7 +315,7 @@ function App() {
     localStorage.clear();
     setCurrentUser({});
     setIsLogin(false);
-    setMovie('')
+    setMovie("");
     navigate("/");
   }
 
@@ -296,6 +335,7 @@ function App() {
         }
       });
       setSavedCards(shortSavedCards);
+      localStorage.setItem(savedMovies, JSON.stringify(shortSavedCards));
     } else {
       setSavedCards(savedMov);
     }
@@ -303,7 +343,7 @@ function App() {
 
   function searchSavedMovies() {
     const savedMov = JSON.parse(localStorage.getItem(savedMovies));
-    filterMovies(savedMov, movie);
+    filterMovies(savedMov, savedMovie);
   }
 
   function openMenu() {
@@ -335,7 +375,6 @@ function App() {
                 element={Movies}
                 isLogin={isLogin}
                 isShowShortMovies={searchMovies}
-                isTurnOn={handleTurnOn}
                 showMoreMovies={handleShowMoreMovies}
                 isButtonMovie={isButtonMore}
                 onChange={handleChangeMovie}
@@ -365,7 +404,7 @@ function App() {
                 isLogin={isLogin}
                 isShowShortMovies={searchShortSavedMovies}
                 isButtonMovie={isButtonMore}
-                onChange={handleChangeMovie}
+                onChange={handleChangeSavedMovie}
                 caption={savedCaption}
                 onShowSavedMovies={searchSavedMovies}
                 savedCards={savedCards.map((savedCard) => (
@@ -382,7 +421,13 @@ function App() {
           />
           <Route
             path="/signup"
-            element={<Register isLogin={isLogin} onRegister={handleRegister} />}
+            element={
+              <Register
+                regErr={regErrorMes}
+                isLogin={isLogin}
+                onRegister={handleRegister}
+              />
+            }
           />
           <Route
             path="/signin"

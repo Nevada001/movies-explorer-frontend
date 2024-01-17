@@ -40,16 +40,25 @@
 
 .promo__button-info {
   width: 129px;
+
+}
+
+.promo__button-link {
   border-radius: 3px;
   border: 1px solid rgba(255, 255, 255, .6);
-  height: 36px;
+  text-align: center;
   background-color: transparent;
   margin-top: 146px;
+  display: block;
+  line-height: 36px;
+  width: 129px;
+  height: 36px;
   color: #FFF;
+  text-decoration: none;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
-  line-height: 16px; /* 133.333% */
+  
 }
 
 @media screen and (max-width: 1200px) {
@@ -88,7 +97,7 @@
     text-align: center;
   }
 
-  .promo__button-info {
+  .promo__button-link {
     width: 129px;
     border-radius: 3px;
     border: 1px solid rgba(255, 255, 255, .6);
@@ -130,7 +139,7 @@
     max-width: calc(100vw - 30px*2);
   }
 
-  .promo__button-info {
+  .promo__button-link {
     margin-bottom: 0;
   }
 }

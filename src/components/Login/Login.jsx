@@ -37,12 +37,12 @@ export default function Login({ isLogin, onLogin}) {
       <form onSubmit={handleSubmit} className="form">
         <h2 className="login__title">Рады видеть!</h2>
         <p className="login__caption">E-mail</p>
-        <input name="email" value={values.email} onChange={handleInputChangeFromHook} className="login__input" />
+        <input required name="email" value={values.email} onChange={handleInputChangeFromHook} className="login__input" />
         <span className={`input-error ${errors && "input-error_active"}`}>
           {errors.email || ""}
         </span>
         <p className="login__caption">Пароль</p>
-        <input name="password" value={values.password} onChange={handleInputChangeFromHook} className="login__input" />
+        <input required name="password" value={values.password} onChange={handleInputChangeFromHook} className="login__input" />
         <span className={`input-error ${errors && "input-error_active"}`}>
           {errors.password || ""}
         </span>

@@ -41,7 +41,7 @@ export default function Profile({ onUpdate, onLogOut }) {
         <div className="profile__inputs-container">
           <p className="profile__caption">Имя</p>
           <input
- 
+            required
             className="profile__input"
             name="name"
             type="text"

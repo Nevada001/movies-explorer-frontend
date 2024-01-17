@@ -10,7 +10,7 @@ export default function SearchForm({
   caption,
   onShowSavedMovies,
 }) {
-  const [turnState, setTurnState] = useState(true);
+  const [turnState, setTurnState] = useState(localStorage.getItem(checkBoxState));
   const {
     register,
     formState: { errors },
@@ -18,6 +18,9 @@ export default function SearchForm({
   } = useForm();
   const location = useLocation();
 
+  useEffect(() => {
+    (localStorage.getItem(checkBoxState) === 'true') ? setTurnState(true) : setTurnState(false);
+  }, [turnState]);
 
   function onSubmitMovies(data, e) {
     e.preventDefault();
@@ -31,9 +34,11 @@ export default function SearchForm({
 
   function shortFilmsToggle() {
     turnState ? setTurnState(false) : setTurnState(true);
-    localStorage.setItem(checkBoxState, turnState);
-    isShowShortMovies()
+    localStorage.setItem(checkBoxState, !turnState);
+    isShowShortMovies();
   }
+
+  
 
   function handleChangeMovie(e) {
     onChange(e.target.value);
@@ -74,7 +79,7 @@ export default function SearchForm({
         <article
           onClick={shortFilmsToggle}
           className={`search__element ${
-            turnState && "search__element_inactive"
+            !turnState && "search__element_inactive"
           }`}
         ></article>
         <p className="search__caption">Короткометражки</p>

@@ -20,7 +20,6 @@ export default function MoviesCard({ card, savedCards, onMovieDelete, isAdded, o
 
   function handleDeleteClick() { 
     const selectedCard = savedCards.find((movie) => (movie.movieId === card.id))
-    console.log(selectedCard)
     onMovieDelete(selectedCard);
   }
 
