@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./Profile.css";
 import { CurrentUserContext } from "../../contexts/CurrentUser";
 import useFormValidation from "../hooks/FormValidation";
-export default function Profile({ onUpdate, onLogOut }) {
+export default function Profile({ onUpdate, updateMess, onLogOut }) {
   const currentUser = React.useContext(CurrentUserContext);
 
   const { values, errors, formValid, handleInputChange, resetFormValues } =
@@ -67,6 +67,7 @@ export default function Profile({ onUpdate, onLogOut }) {
           {errors.email || ""}
         </span>
         <div className="profile__button-container">
+          <span className="message">{updateMess}</span>
           <button className={`profile__button links ${(!formValid || isDataSame) && 'profile__button_inactive'}`} disabled={!formValid || isDataSame} type="submit">
             Редактировать
           </button>

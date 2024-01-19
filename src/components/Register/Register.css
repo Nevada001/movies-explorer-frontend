@@ -48,7 +48,7 @@
 }
 
 .register__button {
-  margin: 134px 0 16px;
+  margin: 0 0 16px;
   width: 100%;
   border-radius: 3px;
   background-color: #3456F3;
@@ -58,6 +58,7 @@
 }
 
 .error {
+  margin: 201px 0 20px;
   display: block;
   width: 100%;
   color: red;
@@ -110,8 +111,12 @@
     width: 260px;
   }
 
+  .error {
+    margin-top: 309px;
+  }
+
   .register__button {
-    margin: 309px 0 12px;
+    margin: 0 0 12px;
   }
 
   .register__caption-bottom {

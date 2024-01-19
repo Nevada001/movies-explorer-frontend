@@ -29,6 +29,8 @@ import { CurrentUserContext } from "../../contexts/CurrentUser";
 import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElement";
 
 function App() {
+  const [logErrMess, setLogErrMess] = useState("");
+  const [updateMess, setUpdateMess] = useState('');
   const [regErrorMes, setRegErrorMes] = useState("");
   const { amountOfMovies, setAmountOfMovies } = useResize();
   const [currentUser, setCurrentUser] = useState({});
@@ -49,36 +51,38 @@ function App() {
     checkToken();
   }, [isLogin]);
 
+
+
   useEffect(() => {
     const moviesFromStorage = JSON.parse(localStorage.getItem(movies));
     const inputMovieText = localStorage.getItem(movieQueryText);
-    if (!moviesFromStorage || !inputMovieText) {
-      return;
+    const savedMoviesFromStorage = JSON.parse(
+      localStorage.getItem(savedMovies)
+    );
+    isLogin &&  Promise.all([mainApi.getSavedMovies(), mainApi.getUserData()])
+      .then(([movies, user]) => {
+        setSavedCards(movies);
+        if (movies.length === 0) {
+          setSavedCaption("Ничего не найдено");
+        } else {
+          setSavedCaption("");
+        }
+        setCurrentUser(user);
+        localStorage.setItem(savedMovies, JSON.stringify(movies));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    if (savedMoviesFromStorage) {
+      loadSavedMovies(savedMoviesFromStorage)
     }
-    location.pathname === "/movies" &&
-      filterMovies(moviesFromStorage, inputMovieText);
-    isLogin &&
-      Promise.all([mainApi.getSavedMovies(), mainApi.getUserData()])
-        .then(([movies, user]) => {
-          if (movies.length === 0) {
-            setSavedCaption("Ничего не найдено");
-          } else {
-            setSavedCaption("");
-          }
-          setCurrentUser(user);
-          loadSavedMovies(movies);
-          localStorage.setItem(savedMovies, JSON.stringify(movies));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-
     if (isLogin) {
       if (!moviesFromStorage || !inputMovieText) {
         setCards([]);
+        setIsButtonMore(false);
       } else {
         setMovie(inputMovieText);
-        setCards(moviesFromStorage);
+        filterMovies(moviesFromStorage, inputMovieText);
         if (moviesFromStorage.length === 0) {
           setCaption("Ничего не найдено");
         } else {
@@ -89,8 +93,7 @@ function App() {
         }
         if (cards.length > amountOfMovies.totalAmount) {
           setIsButtonMore(true);
-        }
-         else {
+        } else {
           setIsButtonMore(false);
         }
       }
@@ -98,7 +101,13 @@ function App() {
     if (cards > 0) {
       setCaption("");
     }
-  }, [amountOfMovies, isLogin, location, localStorage.getItem(checkBoxState)]);
+
+    if (cards.length > amountOfMovies.totalAmount) {
+      setIsButtonMore(true);
+    } else {
+      setIsButtonMore(false);
+    }
+  }, [amountOfMovies, isLogin, location]);
 
   function checkToken() {
     if (localStorage.getItem(jwt)) {
@@ -121,12 +130,15 @@ function App() {
         console.log(userData);
         setCurrentUser(userData);
         setIsLoading(false);
+        setUpdateMess('Данные пользователя изменены успешно');
       })
       .catch((err) => {
         setIsLoading(false);
+        setUpdateMess('При обновлении профиля произошла ошибка');
         console.log(err);
       })
       .finally(() => {
+        setTimeout(() => setUpdateMess(''), 4000)
         setIsLoading(false);
       });
   }
@@ -170,12 +182,14 @@ function App() {
       mainApi
         .deleteMovieFromSaved(selectedCard)
         .then(() => {
-          const savedMoviesAfterDeleting = savedCards.filter((el) => el._id !== selectedCard._id)
+          const savedMoviesAfterDeleting = savedCards.filter(
+            (el) => el._id !== selectedCard._id
+          );
           localStorage.setItem(
             savedMovies,
             JSON.stringify(savedMoviesAfterDeleting)
           );
-          setSavedCards(savedMoviesAfterDeleting)
+          setSavedCards(savedMoviesAfterDeleting);
         })
         .catch((err) => {
           console.log(err);
@@ -220,9 +234,11 @@ function App() {
           setIsLogin(true);
           localStorage.setItem(jwt, res.token);
           navigate("/movies");
+          setLogErrMess("");
         }
       })
       .catch((err) => {
+        setLogErrMess("Вы ввели неправильный логин или пароль.");
         console.log(`Ошибка авторизации: ${err}`);
       });
   }
@@ -279,7 +295,6 @@ function App() {
         return el;
       }
     });
-
     location.pathname === "/movies"
       ? localStorage.setItem(movieQueryText, name)
       : localStorage.setItem(savedMovieQueryText, name);
@@ -330,7 +345,7 @@ function App() {
     setMovie("");
     navigate("/");
     setSavedCards([]);
-    setCards([])
+    setCards([]);
   }
 
   function searchMovies() {
@@ -340,6 +355,7 @@ function App() {
   function searchShortSavedMovies() {
     const savedMov = JSON.parse(localStorage.getItem(savedMovies));
     if (!savedMov) {
+      console.log('ds')
       return;
     }
     if (localStorage.getItem(checkBoxState) === "true") {
@@ -349,7 +365,6 @@ function App() {
         }
       });
       setSavedCards(shortSavedCards);
-      localStorage.setItem(savedMovies, JSON.stringify(shortSavedCards));
     } else {
       setSavedCards(savedMov);
     }
@@ -445,13 +460,20 @@ function App() {
           />
           <Route
             path="/signin"
-            element={<Login isLogin={isLogin} onLogin={handleLogin} />}
+            element={
+              <Login
+                logErrMess={logErrMess}
+                isLogin={isLogin}
+                onLogin={handleLogin}
+              />
+            }
           />
           <Route
             path="/profile"
             element={
               <ProtectedRouteElement
                 element={Profile}
+                updateMess={updateMess}
                 isLogin={isLogin}
                 onLogOut={handleLogOut}
                 onUpdate={handleUpdateUser}

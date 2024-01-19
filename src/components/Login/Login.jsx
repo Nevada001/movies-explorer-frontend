@@ -3,7 +3,7 @@ import logo from "../../images/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useFormValidation from "../hooks/FormValidation";
-export default function Login({ isLogin, onLogin}) {
+export default function Login({ isLogin, logErrMess, onLogin}) {
 
 
   const navigate = useNavigate();
@@ -46,6 +46,7 @@ export default function Login({ isLogin, onLogin}) {
         <span className={`input-error ${errors && "input-error_active"}`}>
           {errors.password || ""}
         </span>
+        <span className="error">{logErrMess}</span>
         <button disabled={!formValid} className={`login__button links ${!formValid && "login__button_inactive"}`} type="submit">
           Войти
         </button>

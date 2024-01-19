@@ -60,9 +60,13 @@ display: block;
   line-height: normal;
 }
 
+.message {
+ margin: 221px auto 20px;
+}
+
 
 .profile__button {
-  margin: 221px auto 16px;
+  margin: 0 auto 16px;
   width: 410px;
   border: none;
   color: #000;
