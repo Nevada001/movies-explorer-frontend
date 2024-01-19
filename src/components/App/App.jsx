@@ -52,6 +52,10 @@ function App() {
   useEffect(() => {
     const moviesFromStorage = JSON.parse(localStorage.getItem(movies));
     const inputMovieText = localStorage.getItem(movieQueryText);
+    if (!moviesFromStorage || !inputMovieText) {
+      setCaption('Ничего не найдено')
+      return;
+    }
     location.pathname === "/movies" &&
       filterMovies(moviesFromStorage, inputMovieText);
     isLogin &&
@@ -72,9 +76,9 @@ function App() {
       if (!moviesFromStorage || !inputMovieText) {
         setCards([]);
       } else {
-        // setMovie(inputMovieText);
-        //setCards(moviesFromStorage);
-        if (moviesFromStorage.length === 0) {
+        setMovie(inputMovieText);
+        setCards(moviesFromStorage);
+        if (cards.length === 0) {
           setCaption("Ничего не найдено");
         } else {
           setCaption("");
