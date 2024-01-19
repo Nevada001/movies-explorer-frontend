@@ -53,24 +53,25 @@ function App() {
     const moviesFromStorage = JSON.parse(localStorage.getItem(movies));
     const inputMovieText = localStorage.getItem(movieQueryText);
     if (!moviesFromStorage || !inputMovieText) {
-      setCaption('Ничего не найдено')
       return;
     }
     location.pathname === "/movies" &&
       filterMovies(moviesFromStorage, inputMovieText);
     isLogin &&
-      Promise.all([mainApi.getSavedMovies(), mainApi.getUserData()]).then(
-        ([movies, user]) => {
+      Promise.all([mainApi.getSavedMovies(), mainApi.getUserData()])
+        .then(([movies, user]) => {
           if (movies.length === 0) {
             setSavedCaption("Ничего не найдено");
           } else {
             setSavedCaption("");
           }
           setCurrentUser(user);
-          loadSaveMovies(movies);
+          loadSavedMovies(movies);
           localStorage.setItem(savedMovies, JSON.stringify(movies));
-        }
-      );
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
     if (isLogin) {
       if (!moviesFromStorage || !inputMovieText) {
@@ -78,14 +79,18 @@ function App() {
       } else {
         setMovie(inputMovieText);
         setCards(moviesFromStorage);
-        if (cards.length === 0) {
+        if (moviesFromStorage.length === 0) {
           setCaption("Ничего не найдено");
         } else {
           setCaption("");
         }
+        if (cards.length === 0) {
+          setIsButtonMore(false);
+        }
         if (cards.length > amountOfMovies.totalAmount) {
           setIsButtonMore(true);
-        } else {
+        }
+         else {
           setIsButtonMore(false);
         }
       }
@@ -165,15 +170,18 @@ function App() {
       mainApi
         .deleteMovieFromSaved(selectedCard)
         .then(() => {
-          setSavedCards((state) =>
-            state.filter((el) => el._id !== selectedCard._id)
+          const savedMoviesAfterDeleting = savedCards.filter((el) => el._id !== selectedCard._id)
+          localStorage.setItem(
+            savedMovies,
+            JSON.stringify(savedMoviesAfterDeleting)
           );
+          setSavedCards(savedMoviesAfterDeleting)
         })
         .catch((err) => {
           console.log(err);
         });
     }
-    return;
+    return localStorage.setItem(savedMovies, JSON.stringify(savedCards));
   }
 
   function handleMovieAdd(card) {
@@ -238,7 +246,7 @@ function App() {
       .finally(() => {});
   }
 
-  function loadSaveMovies(arr) {
+  function loadSavedMovies(arr) {
     const result = arr.filter((el) => {
       if (
         localStorage.getItem(checkBoxState) === "true" ? el.duration < 40 : el
@@ -250,9 +258,9 @@ function App() {
     setSavedCards(result);
 
     if (result.length === 0 || movies.length === 0) {
-      setCaption("Ничего не найдено");
+      setSavedCaption("Ничего не найдено");
     } else {
-      setCaption("");
+      setSavedCaption("");
     }
   }
 
@@ -321,6 +329,8 @@ function App() {
     setIsLogin(false);
     setMovie("");
     navigate("/");
+    setSavedCards([]);
+    setCards([])
   }
 
   function searchMovies() {
