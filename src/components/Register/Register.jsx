@@ -60,9 +60,10 @@ export default function Register({ isLogin, regErr, onRegister }) {
           type="password"
           className="register__input"
         />
-        <span className="error">
+        <span className="input-error input-error_active">
           {errors.password || ""}
         </span>
+        <span className="error">{regErr}</span>
         <button
           disabled={!formValid}
           className={`register__button links ${
@@ -72,7 +73,7 @@ export default function Register({ isLogin, regErr, onRegister }) {
         >
           Зарегистрироваться
         </button>
-        <span className="error">{regErr}</span>
+        
         <div className="register__container">
           <p className="register__caption-bottom">Уже зарегистрированы?</p>
           <Link className="register__linkAuth links" to="../signin">

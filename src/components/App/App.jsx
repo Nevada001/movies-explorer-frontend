@@ -29,6 +29,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUser";
 import ProtectedRouteElement from "../ProtectedRouteElement/ProtectedRouteElement";
 
 function App() {
+  const [regErrMess, setRegErrMess] = useState('');
   const [logErrMess, setLogErrMess] = useState("");
   const [updateMess, setUpdateMess] = useState('');
   const [regErrorMes, setRegErrorMes] = useState("");
