@@ -1,3 +1,5 @@
+//import { Link } from "react-router-dom";
+import { Link, animateScroll as scroll } from "react-scroll";
 import logoLanding from "../../../images/landing-logo.svg";
 import "./Promo.css";
 export default function Promo() {
@@ -16,7 +18,15 @@ export default function Promo() {
           <p className="promo__caption">
             Листайте ниже, чтобы узнать больше про этот проект и его создателя.
           </p>
-          <a className="promo__button-link links" href="#description">Узнать больше</a>
+          <Link
+            activeClass="active"
+            smooth={true}
+            duration={500}
+            className="promo__button-link links"
+            to="description"
+          >
+            Узнать больше
+          </Link>
         </div>
       </div>
     </section>

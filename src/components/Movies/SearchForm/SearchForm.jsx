@@ -10,7 +10,9 @@ export default function SearchForm({
   caption,
   onShowSavedMovies,
 }) {
-  const [turnState, setTurnState] = useState(localStorage.getItem(checkBoxState));
+  const [turnState, setTurnState] = useState(
+    localStorage.getItem(checkBoxState)
+  );
   const {
     register,
     formState: { errors },
@@ -19,7 +21,22 @@ export default function SearchForm({
   const location = useLocation();
 
   useEffect(() => {
-    (localStorage.getItem(checkBoxState) === 'true') ? setTurnState(true) : setTurnState(false);
+    const submitOnKeyEnter = (e) => {
+      if (e.keyCode === 13) {
+        location.pathname === "/movies" ? onShowMovies() : onShowSavedMovies();
+      }
+    };
+    document.addEventListener("keydown", submitOnKeyEnter);
+    // удаляем событие при размонтировании компонента
+    return () => {
+      document.removeEventListener("keydown", submitOnKeyEnter);
+    };
+  }, [handleChangeMovie]);
+
+  useEffect(() => {
+    localStorage.getItem(checkBoxState) === "true"
+      ? setTurnState(true)
+      : setTurnState(false);
   }, [turnState]);
 
   function onSubmitMovies(data, e) {
@@ -37,8 +54,6 @@ export default function SearchForm({
     localStorage.setItem(checkBoxState, !turnState);
     isShowShortMovies();
   }
-
-  
 
   function handleChangeMovie(e) {
     onChange(e.target.value);
