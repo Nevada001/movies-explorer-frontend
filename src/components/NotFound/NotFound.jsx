@@ -3,8 +3,6 @@ import "./NotFound.css";
 
 export default function NotFound() {
 
-
-
   return (
     <section className="notFound">
       <h2 className="notFound__title">404</h2>

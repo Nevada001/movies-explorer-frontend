@@ -53,6 +53,10 @@ function App() {
   }, [isLogin]);
 
   useEffect(() => {
+    cards.length > amountOfMovies.totalAmount ? setIsButtonMore(true) : setIsButtonMore(false)
+  },[amountOfMovies, handleSearchMovies, loadShortMovies])
+
+  useEffect(() => {
     const moviesFromStorage = JSON.parse(localStorage.getItem(movies));
     const inputMovieText = localStorage.getItem(movieQueryText);
     Promise.all([mainApi.getSavedMovies(), mainApi.getUserData()])
@@ -81,31 +85,22 @@ function App() {
       localStorage.getItem(checkBoxState) === "true"
         ? loadShortMovies()
         : setCards(moviesFromStorage);
+     // if (cards.length > amountOfMovies.totalAmount) {
+     //   setIsButtonMore(true);
+      //} else {
+      //  setIsButtonMore(false);
+     // }
       if (moviesFromStorage.length === 0) {
         setCaption("Ничего не найдено");
       } else {
         setCaption("");
-      }
-      if (cards.length === 0) {
-        setIsButtonMore(false);
-      }
-      if (cards.length > amountOfMovies.totalAmount) {
-        setIsButtonMore(true);
-      } else {
-        setIsButtonMore(false);
       }
     }
 
     if (cards > 0) {
       setCaption("");
     }
-
-    if (cards.length > amountOfMovies.totalAmount) {
-      setIsButtonMore(true);
-    } else {
-      setIsButtonMore(false);
-    }
-  }, [isLogin, amountOfMovies, location]);
+  }, [isLogin, location]);
 
   function checkToken() {
     if (localStorage.getItem(jwt)) {
@@ -140,13 +135,6 @@ function App() {
       });
   }
 
-  function handleChangeSavedMovie(savedMovie) {
-    setSavedMovie(savedMovie);
-  }
-
-  function handleChangeMovie(movie) {
-    setMovie(movie);
-  }
   function handleShowMoreMovies() {
     const windowWidth = window.innerWidth;
 
@@ -268,9 +256,13 @@ function App() {
         return el;
       }
     });
-
     // localStorage.setItem(movies, JSON.stringify(result));
     setCards(result);
+    console.log(result);
+    console.log(amountOfMovies.totalAmount);
+   // result.length > amountOfMovies.totalAmount
+    //  ? setIsButtonMore(true)
+    //  : setIsButtonMore(false);
 
     if (result.length === 0 || movies.length === 0) {
       setCaption("Ничего не найдено");
@@ -278,7 +270,16 @@ function App() {
       setCaption("");
     }
   }
-
+  /*
+  (
+    
+      ? (el.nameRU.toLowerCase().includes(word) ||
+          el.nameEN.toLowerCase().includes(word)) &&
+        el.duration < 40
+      : el.nameRU.toLowerCase().includes(word) ||
+        el.nameEN.toLowerCase().includes(word)
+  )
+*/
   function filterMovies(arr, name) {
     if (name === "" || undefined) {
       return;
@@ -286,33 +287,39 @@ function App() {
     const word = name.toLowerCase();
     const result = arr.filter((el) => {
       if (
-        localStorage.getItem(checkBoxState) === "true"
-          ? (el.nameRU.toLowerCase().includes(word) ||
-              el.nameEN.toLowerCase().includes(word)) &&
-            el.duration < 40
-          : el.nameRU.toLowerCase().includes(word) ||
-            el.nameEN.toLowerCase().includes(word)
+        el.nameRU.toLowerCase().includes(word) ||
+        el.nameEN.toLowerCase().includes(word)
       ) {
         return el;
       }
     });
-    /*location.pathname === "/movies"
-      ? localStorage.setItem(movieQueryText, name)
-      : localStorage.setItem(savedMovieQueryText, name); */
-    if (location.pathname === "/movies") {
-      setCards(result);
+    if (localStorage.getItem(checkBoxState) === "true") {
+      const shortResult = result.filter((el) => {
+        if (el.duration < 40) {
+          return el;
+        }
+      });
+      setCards(shortResult);
       localStorage.setItem(movies, JSON.stringify(result));
+      if (shortResult > amountOfMovies.totalAmount) {
+        setIsButtonMore(true);
+      } else {
+        setIsButtonMore(false);
+      }
     } else {
-      setSavedCards(result);
-      localStorage.setItem(savedMovies, JSON.stringify(result));
+      console.log(result.length);
+      console.log(amountOfMovies.totalAmount);
+      
+      location.pathname === "/movies"
+        ? setCards(result)(localStorage.setItem(movies, JSON.stringify(result)))
+        : setSavedCards(result);
     }
-
     if (result.length === 0 || movies.length === 0) {
       setCaption("Ничего не найдено");
     } else {
       setCaption("");
     }
-    if (result.length > amountOfMovies.totalAmount) {
+    if (result > amountOfMovies.totalAmount) {
       setIsButtonMore(true);
     } else {
       setIsButtonMore(false);
@@ -332,6 +339,7 @@ function App() {
       })
       .finally(() => {
         setIsLoading(false);
+        setCaption("");
       });
   }
 
@@ -366,9 +374,9 @@ function App() {
     }
   }
 
-  function searchSavedMovies() {
+  function searchSavedMovies(movieQuery) {
     const savedMov = JSON.parse(localStorage.getItem(savedMovies));
-    filterMovies(savedMov, localStorage.getItem(savedMovieQueryText));
+    filterMovies(savedMov, movieQuery);
   }
 
   function openMenu() {
