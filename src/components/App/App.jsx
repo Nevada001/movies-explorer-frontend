@@ -293,13 +293,14 @@ function App() {
         return el;
       }
     });
+    location.pathname === '/saved-movies' && setSavedCards(result);
     if (localStorage.getItem(checkBoxState) === "true") {
       const shortResult = result.filter((el) => {
         if (el.duration < 40) {
           return el;
         }
       });
-      setCards(shortResult);
+      setCards(shortResult)
       localStorage.setItem(movies, JSON.stringify(result));
       if (shortResult > amountOfMovies.totalAmount) {
         setIsButtonMore(true);

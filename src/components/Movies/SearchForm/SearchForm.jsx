@@ -56,7 +56,6 @@ export default function SearchForm({
     e.target.value === "" ? setIsError(true) : setIsError(false);
     localStorage.setItem(movieQueryText, movieQuery)
     onShowMovies(movieQuery);
-    console.log(movieQuery)
   }
 
   function onSubmitSavedMovies(data, e) {
