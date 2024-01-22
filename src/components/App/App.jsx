@@ -55,50 +55,47 @@ function App() {
   useEffect(() => {
     const moviesFromStorage = JSON.parse(localStorage.getItem(movies));
     const inputMovieText = localStorage.getItem(movieQueryText);
-    const savedMoviesFromStorage = JSON.parse(
-      localStorage.getItem(savedMovies)
-    );
-    
-      Promise.all([mainApi.getSavedMovies(), mainApi.getUserData()])
-        .then(([movies, user]) => {
-          setSavedCards(movies);
-          if (movies.length === 0) {
-            setSavedCaption("Ничего не найдено");
-            setCards([]);
-          } else {
-            setSavedCaption("");
-            loadSavedMovies(movies);
-          }
-          setCurrentUser(user);
-          localStorage.setItem(savedMovies, JSON.stringify(movies));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    Promise.all([mainApi.getSavedMovies(), mainApi.getUserData()])
+      .then(([movies, user]) => {
+        setSavedCards(movies);
+        localStorage.setItem(savedMovies, JSON.stringify(movies));
+        if (movies.length === 0) {
+          setSavedCaption("Ничего не найдено");
+          setCards([]);
+        } else {
+          setSavedCaption("");
+          //loadSavedMovies(movies);
+        }
+        setCurrentUser(user);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     //(location.pathname === '/saved-movies' && savedMoviesFromStorage) &&
     // loadSavedMovies(savedMoviesFromStorage);
-    if (location.pathname === "/movies") {
-      if (!moviesFromStorage || !inputMovieText) {
-        setCards([]);
-        setIsButtonMore(false);
+
+    if (!moviesFromStorage || !inputMovieText) {
+      setCards([]);
+      setIsButtonMore(false);
+    } else {
+      localStorage.getItem(checkBoxState) === "true"
+        ? loadShortMovies()
+        : setCards(moviesFromStorage);
+      if (moviesFromStorage.length === 0) {
+        setCaption("Ничего не найдено");
       } else {
-        setMovie(inputMovieText);
-        filterMovies(moviesFromStorage, inputMovieText);
-        if (moviesFromStorage.length === 0) {
-          setCaption("Ничего не найдено");
-        } else {
-          setCaption("");
-        }
-        if (cards.length === 0) {
-          setIsButtonMore(false);
-        }
-        if (cards.length > amountOfMovies.totalAmount) {
-          setIsButtonMore(true);
-        } else {
-          setIsButtonMore(false);
-        }
+        setCaption("");
+      }
+      if (cards.length === 0) {
+        setIsButtonMore(false);
+      }
+      if (cards.length > amountOfMovies.totalAmount) {
+        setIsButtonMore(true);
+      } else {
+        setIsButtonMore(false);
       }
     }
+
     if (cards > 0) {
       setCaption("");
     }
@@ -108,7 +105,7 @@ function App() {
     } else {
       setIsButtonMore(false);
     }
-  }, []);
+  }, [isLogin, amountOfMovies]);
 
   function checkToken() {
     if (localStorage.getItem(jwt)) {
@@ -116,7 +113,6 @@ function App() {
       mainApi.getContent(jwtFromStorage).then((userData) => {
         if (userData) {
           setIsLogin(true);
-          setCurrentUser(userData);
           navigate(location.pathname);
         }
       });
@@ -261,21 +257,21 @@ function App() {
       .finally(() => {});
   }
 
-  function loadSavedMovies(arr) {
-    const result = arr.filter((el) => {
+  function loadShortMovies() {
+    const result = JSON.parse(localStorage.getItem(movies)).filter((el) => {
       if (
         localStorage.getItem(checkBoxState) === "true" ? el.duration < 40 : el
       ) {
         return el;
       }
     });
-    localStorage.setItem(savedMovies, JSON.stringify(result));
-    setSavedCards(result);
+    // localStorage.setItem(movies, JSON.stringify(result));
+    setCards(result);
 
     if (result.length === 0 || movies.length === 0) {
-      setSavedCaption("Ничего не найдено");
+      setCaption("Ничего не найдено");
     } else {
-      setSavedCaption("");
+      setCaption("");
     }
   }
 
@@ -284,8 +280,6 @@ function App() {
       return;
     }
     const word = name.toLowerCase();
-    console.log(word);
-    console.log(arr);
     const result = arr.filter((el) => {
       if (
         localStorage.getItem(checkBoxState) === "true"
@@ -323,7 +317,7 @@ function App() {
 
   function handleSearchMovies(apiMethod) {
     if (movie === "") {
-      setCaption("Ничего не найдено");
+      return;
     } else {
       setIsLoading(true);
       apiMethod()
@@ -355,13 +349,12 @@ function App() {
     handleSearchMovies(moviesApi.getMovies);
   }
 
-  function searchShortSavedMovies() {
+  function searchShortSavedMovies(savedTurnState) {
     const savedMov = JSON.parse(localStorage.getItem(savedMovies));
     if (!savedMov) {
-      console.log("ds");
       return;
     }
-    if (localStorage.getItem(checkBoxState) === "true") {
+    if (!savedTurnState) {
       const shortSavedCards = savedMov.filter((el) => {
         if (el.duration < 40) {
           return el;
@@ -406,7 +399,7 @@ function App() {
               <ProtectedRouteElement
                 element={Movies}
                 isLogin={isLogin}
-                isShowShortMovies={searchMovies}
+                isShowShortMovies={loadShortMovies}
                 showMoreMovies={handleShowMoreMovies}
                 isButtonMovie={isButtonMore}
                 onChange={handleChangeMovie}

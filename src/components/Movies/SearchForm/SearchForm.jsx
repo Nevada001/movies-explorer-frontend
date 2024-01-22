@@ -10,6 +10,8 @@ export default function SearchForm({
   caption,
   onShowSavedMovies,
 }) {
+  const [isError, setIsError] = useState(false);
+  const [savedTurnState, setSavedTurnState] = useState(false);
   const [turnState, setTurnState] = useState(
     localStorage.getItem(checkBoxState)
   );
@@ -55,8 +57,14 @@ export default function SearchForm({
     isShowShortMovies();
   }
 
+  function shortSavedFilmsToggle() {
+    savedTurnState ? setSavedTurnState(false) : setSavedTurnState(true);
+    isShowShortMovies(savedTurnState);
+  }
+
   function handleChangeMovie(e) {
     onChange(e.target.value);
+    e.target.value === "" ? setIsError(true) : setIsError(false);
   }
 
   return (
@@ -87,14 +95,22 @@ export default function SearchForm({
         </button>
       </form>
       <div className="search__input-caption">
-        {errors?.movies && <p>{errors?.movies?.message || "error"}</p>}
+        {isError && errors?.movies && (
+          <p>{errors?.movies?.message || "error"}</p>
+        )}
       </div>
       <p className="search__error-text">{caption}</p>
       <div className="search__captions">
         <article
-          onClick={shortFilmsToggle}
+          onClick={
+            location.pathname === "/movies"
+              ? shortFilmsToggle
+              : shortSavedFilmsToggle
+          }
           className={`search__element ${
-            !turnState && "search__element_inactive"
+            location.pathname === "/movies"
+              ? !turnState && "search__element_inactive"
+              : !savedTurnState && "search__element_inactive"
           }`}
         ></article>
         <p className="search__caption">Короткометражки</p>
