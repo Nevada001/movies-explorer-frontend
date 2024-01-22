@@ -66,7 +66,7 @@ function App() {
           setSavedCaption("");
           //loadSavedMovies(movies);
         }
-        setCurrentUser(user);
+        
       })
       .catch((err) => {
         console.log(err);
@@ -105,7 +105,7 @@ function App() {
     } else {
       setIsButtonMore(false);
     }
-  }, [isLogin, amountOfMovies]);
+  }, [isLogin, amountOfMovies, location]);
 
   function checkToken() {
     if (localStorage.getItem(jwt)) {
@@ -114,6 +114,7 @@ function App() {
         if (userData) {
           setIsLogin(true);
           navigate(location.pathname);
+          setCurrentUser(userData);
         }
       });
     }
