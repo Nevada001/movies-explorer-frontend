@@ -62,7 +62,7 @@ export default function SearchForm({
     e.preventDefault();
    // e.target.value === "" ? setIsError(true) : setIsError(false);
     localStorage.setItem(savedMovieQueryText, movieQuery)
-    onShowSavedMovies(movieQuery);
+    onShowSavedMovies(movieQuery, savedTurnState);
   }
 
   function shortFilmsToggle() {
@@ -73,7 +73,7 @@ export default function SearchForm({
 
   function shortSavedFilmsToggle() {
     savedTurnState ? setSavedTurnState(false) : setSavedTurnState(true);
-    isShowShortMovies(savedTurnState);
+    isShowShortMovies(savedTurnState, movieQuery);
   }
   return (
     <section className="search">
