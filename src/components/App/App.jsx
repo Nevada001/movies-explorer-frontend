@@ -66,7 +66,7 @@ function App() {
           setSavedCaption("");
           //loadSavedMovies(movies);
         }
-        
+        setCurrentUser(user);
       })
       .catch((err) => {
         console.log(err);
@@ -114,7 +114,6 @@ function App() {
         if (userData) {
           setIsLogin(true);
           navigate(location.pathname);
-          setCurrentUser(userData);
         }
       });
     }
@@ -259,6 +258,9 @@ function App() {
   }
 
   function loadShortMovies() {
+    if (!JSON.parse(localStorage.getItem(movies))) {
+      return;
+    }
     const result = JSON.parse(localStorage.getItem(movies)).filter((el) => {
       if (
         localStorage.getItem(checkBoxState) === "true" ? el.duration < 40 : el
@@ -266,6 +268,7 @@ function App() {
         return el;
       }
     });
+
     // localStorage.setItem(movies, JSON.stringify(result));
     setCards(result);
 
@@ -293,9 +296,9 @@ function App() {
         return el;
       }
     });
-    location.pathname === "/movies"
+    /*location.pathname === "/movies"
       ? localStorage.setItem(movieQueryText, name)
-      : localStorage.setItem(savedMovieQueryText, name);
+      : localStorage.setItem(savedMovieQueryText, name); */
     if (location.pathname === "/movies") {
       setCards(result);
       localStorage.setItem(movies, JSON.stringify(result));
@@ -316,24 +319,20 @@ function App() {
     }
   }
 
-  function handleSearchMovies(apiMethod) {
-    if (movie === "") {
-      return;
-    } else {
-      setIsLoading(true);
-      apiMethod()
-        .then((cards) => {
-          filterMovies(cards, movie);
-        })
-        .catch(() => {
-          setCaption(
-            "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
-          );
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
+  function handleSearchMovies(apiMethod, movieQuery) {
+    setIsLoading(true);
+    apiMethod()
+      .then((cards) => {
+        filterMovies(cards, movieQuery);
+      })
+      .catch(() => {
+        setCaption(
+          "Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз"
+        );
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   }
 
   function handleLogOut() {
@@ -346,8 +345,8 @@ function App() {
     setCards([]);
   }
 
-  function searchMovies() {
-    handleSearchMovies(moviesApi.getMovies);
+  function searchMovies(movieQuery) {
+    handleSearchMovies(moviesApi.getMovies, movieQuery);
   }
 
   function searchShortSavedMovies(savedTurnState) {
@@ -369,7 +368,7 @@ function App() {
 
   function searchSavedMovies() {
     const savedMov = JSON.parse(localStorage.getItem(savedMovies));
-    filterMovies(savedMov, savedMovie);
+    filterMovies(savedMov, localStorage.getItem(savedMovieQueryText));
   }
 
   function openMenu() {
@@ -403,7 +402,7 @@ function App() {
                 isShowShortMovies={loadShortMovies}
                 showMoreMovies={handleShowMoreMovies}
                 isButtonMovie={isButtonMore}
-                onChange={handleChangeMovie}
+                //onChange={handleChangeMovie}
                 caption={caption}
                 isLoading={isLoading}
                 onShowMovies={searchMovies}
@@ -430,7 +429,7 @@ function App() {
                 isLogin={isLogin}
                 isShowShortMovies={searchShortSavedMovies}
                 isButtonMovie={isButtonMore}
-                onChange={handleChangeSavedMovie}
+                //onChange={handleChangeSavedMovie}
                 caption={savedCaption}
                 onShowSavedMovies={searchSavedMovies}
                 savedCards={savedCards.map((savedCard) => (
