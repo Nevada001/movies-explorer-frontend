@@ -13,13 +13,11 @@ export default function SearchForm({
   caption,
   onShowSavedMovies,
 }) {
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [isError, setIsError] = useState(false);
   const [movieQuery, setMovieQuery] = useState("");
   const [savedTurnState, setSavedTurnState] = useState(false);
-  const [turnState, setTurnState] = useState(
-    localStorage.getItem(checkBoxState)
-  );
+  const [turnState, setTurnState] = useState(false);
   const {
     register,
     formState: { errors },
@@ -32,6 +30,7 @@ export default function SearchForm({
     location.pathname === "/movies" &&
       localStorage.getItem(movieQueryText) &&
       setMovieQuery(inputMovie);
+      localStorage.getItem(checkBoxState) === 'false' ? setTurnState(false) : setTurnState(true);
   }, [location.pathname]);
 
   /* useEffect(() => {
@@ -60,14 +59,14 @@ export default function SearchForm({
     e.target.value === "" ? setIsError(true) : setIsError(false);
     localStorage.setItem(movieQueryText, movieQuery);
     onShowMovies(movieQuery);
-    setIsSubmitted(true)
+    setIsSubmitted(true);
   }
 
   function onSubmitSavedMovies(e) {
     e.preventDefault();
     localStorage.setItem(savedMovieQueryText, movieQuery);
     onShowSavedMovies(movieQuery, savedTurnState);
-    setIsSubmitted(true)
+    setIsSubmitted(true);
   }
 
   function shortFilmsToggle() {
@@ -79,7 +78,6 @@ export default function SearchForm({
   function shortSavedFilmsToggle() {
     savedTurnState ? setSavedTurnState(false) : setSavedTurnState(true);
     isShowShortMovies(savedTurnState, movieQuery);
-    
   }
   return (
     <section className="search">
@@ -106,11 +104,17 @@ export default function SearchForm({
           type="text"
           placeholder="Фильм"
         />
-        <button disabled={movieQuery === ''} className={`search__button`} type="submit">
+        <button
+          disabled={movieQuery === ""}
+          className={`search__button`}
+          type="submit"
+        >
           Найти
         </button>
       </form>
-      <span className="search__error">{(isSubmitted && movieQuery === '') && "Нужно ввести ключевое слово"}</span>
+      <span className="search__error">
+        {isSubmitted && movieQuery === "" && "Нужно ввести ключевое слово"}
+      </span>
       <p className="search__error-text">{caption}</p>
       <div className="search__captions">
         <article
