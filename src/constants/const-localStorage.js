@@ -5,3 +5,4 @@ export const movieQueryText = 'MovieQueryText';
 export const savedMovieQueryText = 'SavedMovieQueryText'
 export const movies = 'movies'
 export const savedMovies = 'savedMovies'
+export const allMovies = 'allMovies';

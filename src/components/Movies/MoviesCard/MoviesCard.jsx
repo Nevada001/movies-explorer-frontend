@@ -5,8 +5,8 @@ import { BASE_URL_MAIN } from "../../../utils/MainApi";
 
 export default function MoviesCard({ card, savedCards, onMovieDelete, isAdded, onMovieAdd }) {
   function getTimeInMin() {
-    let hours = Math.trunc(card.duration / 60);
-    let minutes = card.duration % 60;
+    const hours = Math.trunc(card.duration / 60);
+    const minutes = card.duration % 60;
     if (hours < 1) {
       return minutes + "m";
     } else {

@@ -3,8 +3,8 @@ import "./SavedMoviesCard.css";
 export default function MoviesCard({ savedCard, onMovieDelete, savedCards }) {
 
   function getTimeInMin() {
-    let hours = Math.trunc(savedCard.duration / 60);
-    let minutes = savedCard.duration % 60;
+    const hours = Math.trunc(savedCard.duration / 60);
+    const minutes = savedCard.duration % 60;
     if (hours < 1) {
       return minutes + "m";
     } else {
@@ -14,7 +14,6 @@ export default function MoviesCard({ savedCard, onMovieDelete, savedCards }) {
 
   function handleDeleteClick() { 
     const selectedCard = savedCards.find((movie) => (movie._id === savedCard._id))
-    console.log(selectedCard)
     onMovieDelete(selectedCard);
   }
   return (
