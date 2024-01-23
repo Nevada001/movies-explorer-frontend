@@ -60,6 +60,10 @@
   text-align: center;
 }
 
+
+.search__error {
+  color: red;
+}
 .search__element {
   background-image: url(../../../images/turnon.svg);
   background-size: cover;

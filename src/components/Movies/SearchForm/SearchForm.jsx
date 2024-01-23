@@ -13,6 +13,7 @@ export default function SearchForm({
   caption,
   onShowSavedMovies,
 }) {
+  const [isSubmitted, setIsSubmitted] = useState(false)
   const [isError, setIsError] = useState(false);
   const [movieQuery, setMovieQuery] = useState("");
   const [savedTurnState, setSavedTurnState] = useState(false);
@@ -28,14 +29,17 @@ export default function SearchForm({
 
   useEffect(() => {
     const inputMovie = localStorage.getItem(movieQueryText);
-    (location.pathname === "/movies" && localStorage.getItem(movieQueryText)) &&
+    location.pathname === "/movies" &&
+      localStorage.getItem(movieQueryText) &&
       setMovieQuery(inputMovie);
   }, [location.pathname]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     const submitOnKeyEnter = (e) => {
       if (e.keyCode === 13) {
-        location.pathname === "/movies" ? handleSubmit(onSubmitMovies) : handleSubmit(onSubmitSavedMovies);
+        location.pathname === "/movies"
+          ? handleSubmit(onSubmitMovies)
+          : handleSubmit(onSubmitSavedMovies);
       }
     };
     document.addEventListener("keydown", submitOnKeyEnter);
@@ -49,20 +53,21 @@ export default function SearchForm({
     localStorage.getItem(checkBoxState) === "true"
       ? setTurnState(true)
       : setTurnState(false);
-  }, [turnState]);
+  }, [turnState]); */
 
-  function onSubmitMovies(data, e) {
+  function onSubmitMovies(e) {
     e.preventDefault();
     e.target.value === "" ? setIsError(true) : setIsError(false);
-    localStorage.setItem(movieQueryText, movieQuery)
+    localStorage.setItem(movieQueryText, movieQuery);
     onShowMovies(movieQuery);
+    setIsSubmitted(true)
   }
 
-  function onSubmitSavedMovies(data, e) {
+  function onSubmitSavedMovies(e) {
     e.preventDefault();
-   // e.target.value === "" ? setIsError(true) : setIsError(false);
-    localStorage.setItem(savedMovieQueryText, movieQuery)
+    localStorage.setItem(savedMovieQueryText, movieQuery);
     onShowSavedMovies(movieQuery, savedTurnState);
+    setIsSubmitted(true)
   }
 
   function shortFilmsToggle() {
@@ -74,24 +79,26 @@ export default function SearchForm({
   function shortSavedFilmsToggle() {
     savedTurnState ? setSavedTurnState(false) : setSavedTurnState(true);
     isShowShortMovies(savedTurnState, movieQuery);
+    
   }
   return (
     <section className="search">
       <form
+        noValidate
         onSubmit={
           location.pathname === "/saved-movies"
-            ? handleSubmit(onSubmitSavedMovies)
-            : handleSubmit(onSubmitMovies)
+            ? onSubmitSavedMovies
+            : onSubmitMovies
         }
         className="search__container"
       >
         <input
           {...register("movies", {
-            required: "Нужно ввести ключевое слово",
             pattern: {
               value: /^[\S].*$/,
               message: "Нужно ввести ключевое слово",
             },
+            required: "Нужно ввести ключевое слово",
           })}
           onChange={(e) => setMovieQuery(e.target.value)}
           value={movieQuery}
@@ -99,13 +106,11 @@ export default function SearchForm({
           type="text"
           placeholder="Фильм"
         />
-        <button className="search__button" type="submit">
+        <button disabled={movieQuery === ''} className={`search__button`} type="submit">
           Найти
         </button>
       </form>
-      <div className="search__input-caption">
-        {(isError || errors?.movies) && <p>{errors?.movies?.message}</p>}
-      </div>
+      <span className="search__error">{(isSubmitted && movieQuery === '') && "Нужно ввести ключевое слово"}</span>
       <p className="search__error-text">{caption}</p>
       <div className="search__captions">
         <article
