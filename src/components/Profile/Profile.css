@@ -3,6 +3,17 @@
   max-width: 410px;
 }
 
+.input-error {
+  width: 100%;
+  display: none;
+  min-height: 16px;
+  color: red;
+}
+
+.input-error_active {
+display: block;
+}
+
 .profile__title {
   margin: 40px 0;
   text-align: center;
@@ -49,9 +60,13 @@
   line-height: normal;
 }
 
+.message {
+ margin: 221px auto 20px;
+}
+
 
 .profile__button {
-  margin: 221px auto 16px;
+  margin: 0 auto 16px;
   width: 410px;
   border: none;
   color: #000;
@@ -61,6 +76,11 @@
   font-weight: 400;
   line-height: normal;
   background-color: transparent;
+}
+
+
+.profile__button_inactive{
+  opacity: 0.5;
 }
 
 .profile__linkAuth {

@@ -1,16 +1,29 @@
 import "./SavedMoviesCard.css";
 
-export default function MoviesCard({ savedCard, isLike }) {
+export default function MoviesCard({ savedCard, onMovieDelete, savedCards }) {
 
-  const cardButtonClassName = (`card__button ${isLike && 'card__button_active'}`);
+  function getTimeInMin() {
+    const hours = Math.trunc(savedCard.duration / 60);
+    const minutes = savedCard.duration % 60;
+    if (hours < 1) {
+      return minutes + "m";
+    } else {
+      return hours + " h " + minutes + " m";
+    }
+  }
+
+  function handleDeleteClick() { 
+    const selectedCard = savedCards.find((movie) => (movie._id === savedCard._id))
+    onMovieDelete(selectedCard);
+  }
   return (
     <li className="card">
       <img className="card__image" src={savedCard.image} alt="Изображение фильма" />
       <div className="card__container">
         <p className="card__name">{savedCard.nameRU}</p>
-        <button className={cardButtonClassName}></button>
+        <button onClick={handleDeleteClick} className='card__delete'></button>
       </div>
-      <p className="card__duration">{savedCard.duration}</p>
+      <p className="card__duration">{getTimeInMin()}</p>
     </li>
   );
 }

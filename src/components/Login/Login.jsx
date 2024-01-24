@@ -1,17 +1,53 @@
 import "./Login.css";
 import logo from "../../images/logo.svg";
-import { Link } from "react-router-dom";
-export default function Login() {
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import useFormValidation from "../hooks/FormValidation";
+export default function Login({ isLogin, logErrMess, onLogin}) {
+
+
+  const navigate = useNavigate();
+  const { values, errors, formValid, handleInputChange, resetFormValues } =
+    useFormValidation();
+
+  useEffect(() => {
+    isLogin && navigate("/profile");
+    resetFormValues(
+      {
+        password: '',
+        email: '',
+      },
+      {},
+      false
+    );
+
+  }, [isLogin, resetFormValues]);
+  
+  function handleInputChangeFromHook(e) {
+    handleInputChange(e);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    onLogin({email: values.email, password: values.password})
+  }
   return (
     <main className="login">
       <img className="login__logo" src={logo} alt="Логотип" />
-      <form className="form">
+      <form onSubmit={handleSubmit} className="form">
         <h2 className="login__title">Рады видеть!</h2>
-        <p className="login__caption">Имя</p>
-        <input className="login__input" />
         <p className="login__caption">E-mail</p>
-        <input className="login__input" />
-        <button className="login__button links" type="submit">
+        <input required name="email" value={values.email} onChange={handleInputChangeFromHook} className="login__input" />
+        <span className={`input-error ${errors && "input-error_active"}`}>
+          {errors.email || ""}
+        </span>
+        <p className="login__caption">Пароль</p>
+        <input required name="password" value={values.password} onChange={handleInputChangeFromHook} className="login__input" />
+        <span className={`input-error ${errors && "input-error_active"}`}>
+          {errors.password || ""}
+        </span>
+        <span className="error">{logErrMess}</span>
+        <button disabled={!formValid} className={`login__button links ${!formValid && "login__button_inactive"}`} type="submit">
           Войти
         </button>
         <div className="login__container">

@@ -12,9 +12,14 @@
     top: 0px;
     right: 0px;
     text-align: center;
-
   }
 
+
+  .menu__links-container {
+    margin: 159px auto;
+    display: flex;
+    flex-direction: column;
+  }
   .menu__close-button {
     background-image: url(../../images/krest.svg);
     position: absolute;
@@ -30,10 +35,10 @@
   }
 
   .menu__links {
-    margin: 159px auto 90px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-between;
   }
 
   .menu__link {
@@ -54,7 +59,7 @@
 
   .menu__logo {
     background-image: url(../../images/profile_white.svg);
-    margin: 621px auto 90px;
+    margin: 0 auto 90px;
     width: 100px;
     height: 32px;
     object-fit: cover;
@@ -77,10 +82,10 @@
   }
 
   .menu__logo {
-    margin: 444px auto 46px;
+    margin: 0 auto 46px;
   }
 
-  .menu__links {
+  .menu__links-container {
     margin: 144px auto 0;
   }
 }
