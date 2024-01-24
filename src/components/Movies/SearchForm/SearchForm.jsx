@@ -18,11 +18,7 @@ export default function SearchForm({
   const [movieQuery, setMovieQuery] = useState("");
   const [savedTurnState, setSavedTurnState] = useState(false);
   const [turnState, setTurnState] = useState(false);
-  const {
-    register,
-    formState: { errors },
-    handleSubmit,
-  } = useForm();
+ 
   const location = useLocation();
 
   useEffect(() => {
@@ -33,26 +29,6 @@ export default function SearchForm({
       localStorage.getItem(checkBoxState) === 'false' ? setTurnState(false) : setTurnState(true);
   }, [location.pathname]);
 
-  /* useEffect(() => {
-    const submitOnKeyEnter = (e) => {
-      if (e.keyCode === 13) {
-        location.pathname === "/movies"
-          ? handleSubmit(onSubmitMovies)
-          : handleSubmit(onSubmitSavedMovies);
-      }
-    };
-    document.addEventListener("keydown", submitOnKeyEnter);
-    // удаляем событие при размонтировании компонента
-    return () => {
-      document.removeEventListener("keydown", submitOnKeyEnter);
-    };
-  }, [movieQuery]);
-
-  useEffect(() => {
-    localStorage.getItem(checkBoxState) === "true"
-      ? setTurnState(true)
-      : setTurnState(false);
-  }, [turnState]); */
 
   function onSubmitMovies(e) {
     e.preventDefault();
@@ -91,13 +67,7 @@ export default function SearchForm({
         className="search__container"
       >
         <input
-          {...register("movies", {
-            pattern: {
-              value: /^[\S].*$/,
-              message: "Нужно ввести ключевое слово",
-            },
-            required: "Нужно ввести ключевое слово",
-          })}
+          
           onChange={(e) => setMovieQuery(e.target.value)}
           value={movieQuery}
           className="search__input"

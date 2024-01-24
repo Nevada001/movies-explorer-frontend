@@ -80,7 +80,7 @@ function App() {
           console.log(err);
         });
     }
-  }, [isLogin]);
+  }, [isLogin, location]);
 
   useEffect(() => {
     const moviesFromStorage = JSON.parse(localStorage.getItem(movies));
